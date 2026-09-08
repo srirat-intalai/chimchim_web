@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="th">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="CHIMCHIM">
+      <meta name="description" content="ชิมชิม (CHIMCHIM) - แอป AI + Food DNA ช่วยจับคู่ร้านอาหารให้ตรงรสนิยมคุณ (Prototype)">
+      <title>ชิมชิม (CHIMCHIM) - Find Food. Find Your People.</title>
+      <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+      <!-- Bootstrap 5.3 -->
+      <link href="css/bootstrap.min.css" rel="stylesheet"/>
+      <!-- AOS Animate on Scroll -->
+      <link href="css/aos.css" rel="stylesheet"/>
+      <!-- Swiper -->
+      <link href="css/swiper-bundle.min.css" rel="stylesheet"/>
+      <!-- all min css -->
+      <link rel="stylesheet" href="css/all.min.css"/>
+      <!-- magnific CSS -->
+      <link rel="stylesheet" href="css/magnific-popup.css"/>
+      <!-- Style CSS -->
+      <link rel="stylesheet" href="css/style.css" />
+   </head>
+   <body>
+      <!-- ============================================================
+         TOP BAR
+         ============================================================ -->
+      <div id="topbar">
+         <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+               <div class="top-contact d-flex flex-wrap">
+                  <span><i class="fas fa-phone-alt"></i>02-123-4567</span>
+                  <span><i class="fas fa-envelope"></i>hello@chimchim.app</span>
+                  <span><i class="fas fa-map-marker-alt"></i>นำร่องแถวมหาวิทยาลัย กรุงเทพฯ</span>
+               </div>
+               <div class="d-flex align-items-center gap-3">
+                  <span class="ttag" data-th="🦖 Prototype ทดลองใช้งาน" data-en="🦖 Prototype - Try it out"><i class="fas fa-flask me-1"></i>🦖 Prototype ทดลองใช้งาน</span>
+                  <div class="tsoc">
+                     <a href="#"><i class="fab fa-facebook-f"></i></a>
+                     <a href="#"><i class="fab fa-instagram"></i></a>
+                     <a href="#"><i class="fab fa-tiktok"></i></a>
+                     <a href="#"><i class="fab fa-youtube"></i></a>
+                  </div>
+                  <div class="langsw">
+                     <button class="langbtn active" id="langThBtn" data-lang="th">TH</button>
+                     <button class="langbtn" id="langEnBtn" data-lang="en">EN</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- ============================================================
+         NAVBAR
+         ============================================================ -->
+      <nav class="navbar navbar-expand-lg" id="nav">
+         <div class="container">
+            <a class="navbar-brand" href="#hero">
+               <div class="blogo">
+                  <div class="bico">🦖</div>
+                  <div>
+                     <div class="bname">ชิม<span>ชิม</span></div>
+                     <div class="bsub" data-th="AI Food Finder" data-en="AI Food Finder">AI Food Finder</div>
+                  </div>
+               </div>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+            <i class="fas fa-bars" style="color:var(--primary);font-size:1.35rem;"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navmenu">
+               <ul class="navbar-nav mx-auto">
+                  <li class="nav-item"><a class="nav-link active" href="#hero" data-th="หน้าแรก" data-en="Home">หน้าแรก</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#ai-finder" data-th="AI Food Finder" data-en="AI Food Finder">AI Food Finder</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#following" data-th="Following" data-en="Following">Following</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#testimonials" data-th="Profile" data-en="Profile">Profile</a></li>
+               </ul>
+               <div class="d-flex align-items-center gap-1">
+                  <button id="navSearchBtn" title="Search"><i class="fas fa-search"></i></button>
+                  <a href="#ai-finder" class="nav-link nav-cta"><i class="fas fa-brain me-1"></i><span data-th="ถาม AI" data-en="Ask AI">ถาม AI</span></a>
+               </div>
+            </div>
+         </div>
+      </nav>
+      <!-- ============================================================
+         SEARCH OVERLAY POPUP
+         ============================================================ -->
+      <div id="searchOv">
+         <button class="sovclose" id="searchClose"><i class="fas fa-times"></i></button>
+         <div class="sovbox">
+            <h4 data-th="วันนี้อยากกินอะไร?" data-en="What are you craving today?">วันนี้อยากกินอะไร?</h4>
+            <div class="sovinput">
+               <input type="text" id="searchInput" placeholder="ค้นหาร้าน อาหาร หรือคนที่คุณอยากติดตาม" autocomplete="off"/>
+               <button><i class="fas fa-search"></i></button>
+            </div>
+            <!-- หมวดหมู่ในกล่องค้นหา -->
+            <div class="sovcats">
+               <div class="sovcat active" data-cat="ข้าว">
+                  <img src="img/category-new/rice.jpg" alt=""/>🍚 ข้าว
+               </div>
+               <div class="sovcat" data-cat="เส้น">
+                  <img src="img/category-new/noodle.jpg" alt=""/>🍜 เส้น
+               </div>
+               <div class="sovcat" data-cat="ซุป">
+                  <img src="img/category-new/soup.jpg" alt=""/>🥣 ซุป
+               </div>
+               <div class="sovcat" data-cat="Fast Food">
+                  <img src="img/category-new/fastfood.jpg" alt=""/>🍔 Fast Food
+               </div>
+               <div class="sovcat" data-cat="ญี่ปุ่น">
+                  <img src="img/category-new/japanese.jpg" alt=""/>🍣 ญี่ปุ่น
+               </div>
+               <div class="sovcat" data-cat="ของหวาน">
+                  <img src="img/category-new/dessert.jpg" alt=""/>🍰 ของหวาน
+               </div>
+               <div class="sovcat" data-cat="เผ็ด">
+                  <img src="img/category-new/spicy.jpg" alt=""/>🌶️ เผ็ด
+               </div>
+            </div>
+            <div class="sovtrend">
+               <p><i class="fas fa-fire me-1" style="color:var(--secondary);"></i>ค้นหายอดฮิต</p>
+               <span class="ttag">ข้าวมันไก่</span>
+               <span class="ttag">ต้มยำ</span>
+               <span class="ttag">ราเมง</span>
+               <span class="ttag">ชาไทยเย็น</span>
+               <span class="ttag">ส้มตำ</span>
+               <span class="ttag">บิงซู</span>
+            </div>
+         </div>
+      </div>
+      <!-- ============================================================
+         HERO
+         ============================================================ -->
+      <section id="hero">
+         <div class="hs hs1"></div>
+         <div class="hs hs2"></div>
+         <div class="hbgtxt">CHIMCHIM</div>
+         <div class="container">
+            <div class="row align-items-center g-5" style="min-height:88vh;">
+               <div class="col-lg-6">
+                  <div class="hbadge">
+                     <div class="hbi">🦖</div>
+                     <span data-th="แอปคู่ใจนักศึกษาที่รู้ใจคุณกว่าใคร" data-en="The student food app that gets you">แอปคู่ใจนักศึกษาที่รู้ใจคุณกว่าใคร</span>
+                  </div>
+                  <h1 class="htitle" data-th="วันนี้อยากกิน<span class=&quot;hl&quot;>อะไร</span>?" data-en="What do you <span class=&quot;hl&quot;>want to eat</span> today?">วันนี้อยากกิน<span class="hl">อะไร</span>?</h1>
+                  <p style="font-weight:600;color:#999;margin-top:-10px;margin-bottom:14px;" data-th="Discover something worth trying." data-en="Discover something worth trying.">Discover something worth trying.</p>
+                  <p class="hdesc" data-th="ชิมชิมคือแอปที่เรียนรู้ว่าคุณชอบกินอะไร แล้วใช้ AI ช่วยหาร้านและอาหารที่เหมาะกับคุณจริง ๆ" data-en="Chimchim learns what you love to eat, then uses AI to find restaurants and dishes that truly fit you.">ชิมชิมคือแอปที่เรียนรู้ว่าคุณชอบกินอะไร แล้วใช้ AI ช่วยหาร้านและอาหารที่เหมาะกับคุณจริง ๆ</p>
+                  <div class="d-flex flex-wrap gap-3 mb-2">
+                     <a href="#ai-finder" class="btn-red"><i class="fas fa-brain"></i><span data-th="ถาม AI ให้เลือกให้" data-en="Ask AI to pick for me">ถาม AI ให้เลือกให้</span></a>
+                     <a href="#special" class="btn-red" style="background:linear-gradient(135deg,var(--dark),#6d5fa0);box-shadow:0 8px 24px rgba(143,130,184,.35);"><i class="fas fa-dice"></i><span data-th="สุ่มเมนูให้หน่อย" data-en="Surprise me">สุ่มเมนูให้หน่อย</span></a>
+                     <a href="https://www.youtube.com/watch?v=RXv_uIN6e-Y" class="magnific_popup btn-play popup-youtube">
+                        <div class="pico"><i class="fas fa-play"></i></div>
+                        <span data-th="ดูวิธีใช้งาน 30 วิ" data-en="Watch a 30s demo">ดูวิธีใช้งาน 30 วิ</span>
+                     </a>
+                  </div>
+                  <div class="hstats d-flex gap-3 flex-wrap mt-4">
+                     <div class="hstat"><span class="snum">500<em>+</em></span><small data-th="นักศึกษาที่ใช้งาน" data-en="students using it">นักศึกษาที่ใช้งาน</small></div>
+                     <div class="sdiv"></div>
+                     <div class="hstat"><span class="snum">300<em>+</em></span><small data-th="ร้านในระบบ" data-en="restaurants listed">ร้านในระบบ</small></div>
+                     <div class="sdiv"></div>
+                     <div class="hstat"><span class="snum">3<em> แห่ง</em></span><small data-th="มหาลัยที่เปิดให้บริการ" data-en="universities live">มหาลัยที่เปิดให้บริการ</small></div>
+                     <div class="sdiv"></div>
+                     <div class="hstat"><span class="snum">94<em>%</em></span><small data-th="ความแม่นยำ Food DNA" data-en="Food DNA accuracy">ความแม่นยำ Food DNA</small></div>
+                  </div>
+                  <p style="font-size:.7rem;color:#bbb;margin-top:10px;" data-th="*ตัวเลขตัวอย่างสำหรับสาธิต prototype เท่านั้น" data-en="*Sample numbers for this prototype demo only">*ตัวเลขตัวอย่างสำหรับสาธิต prototype เท่านั้น</p>
+               </div>
+               <div class="col-lg-6">
+                  <div style="position:relative;text-align:center;">
+                     <div class="hcircle">
+                        <img src="img/hero-new/hero-dish.jpg" alt="อาหารไทยจานเด่นของชิมชิม"/>
+                     </div>
+                     <div class="fcard fc1">
+                        <div class="fcoi r"><i class="fas fa-bullseye"></i></div>
+                        <div><span class="fcnum">🎯 Match 94%</span><span class="fcsm" data-th="ตรงรสนิยมคุณมาก" data-en="Strong taste match">ตรงรสนิยมคุณมาก</span></div>
+                     </div>
+                     <div class="fcard fc2">
+                        <div class="fcoi y"><i class="fas fa-dna"></i></div>
+                        <div><span class="fcnum">🦖 Food DNA Lv.27</span><span class="fcsm" data-th="ชิมชิมรู้จักคุณดีขึ้นเรื่อย ๆ" data-en="Chimchim keeps learning you">ชิมชิมรู้จักคุณดีขึ้นเรื่อย ๆ</span></div>
+                     </div>
+                     <div class="fcard fc3">
+                        <div class="fcoi g"><i class="fas fa-location-dot"></i></div>
+                        <div><span class="fcnum">📍 350 ม.</span><span class="fcsm" data-th="จากตำแหน่งคุณ" data-en="from your location">จากตำแหน่งคุณ</span></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- MARQUEE -->
+      <div class="mqsec">
+         <div class="mqtrack">
+            <div class="mqitem"><i class="fas fa-circle"></i>ข้าวมันไก่</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ต้มยำ</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ราเมง</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ชาไทย</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>กะเพรา</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>บิงซู</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ส้มตำ</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ซูชิ</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ข้าวมันไก่</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ต้มยำ</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ราเมง</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ชาไทย</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>กะเพรา</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>บิงซู</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ส้มตำ</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>ซูชิ</div>
+         </div>
+      </div>
+      <!-- CATEGORY -->
+      <section id="category">
+         <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" data-th="หมวดหมู่อาหาร" data-en="Categories">หมวดหมู่อาหาร</span>
+               <h2 class="stitle" data-th="เลือกตาม<span>หมวดที่อยากกิน</span>" data-en="Browse by <span>Category</span>">เลือกตาม<span>หมวดที่อยากกิน</span></h2>
+               <div class="sline"></div>
+               <p class="sdesc mx-auto" style="max-width:480px;" data-th="ตั้งแต่ข้าวราดง่าย ๆ ไปจนถึงของหวานคลายร้อน กดหมวดที่อยากกินแล้วให้ชิมชิมช่วยเลือกร้าน" data-en="From easy rice bowls to a cooling dessert - pick a mood and let chimchim find the shop">ตั้งแต่ข้าวราดง่าย ๆ ไปจนถึงของหวานคลายร้อน กดหมวดที่อยากกินแล้วให้ชิมชิมช่วยเลือกร้าน</p>
+            </div>
+            <div class="row g-3 justify-content-center">
+               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="0">
+                  <div class="catcard" data-filter="ข้าว">
+                     <img class="catimg" src="img/category-new/rice.jpg" alt="ข้าว"/>
+                     <div class="catnm">🍚 ข้าว</div>
+                     <div class="catct">42 ร้าน</div>
+                  </div>
+               </div>
+               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="70">
+                  <div class="catcard" data-filter="เส้น">
+                     <img class="catimg" src="img/category-new/noodle.jpg" alt="เส้น"/>
+                     <div class="catnm">🍜 เส้น</div>
+                     <div class="catct">38 ร้าน</div>
+                  </div>
+               </div>
+               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="140">
+                  <div class="catcard" data-filter="ซุป">
+                     <img class="catimg" src="img/category-new/soup.jpg" alt="ซุป"/>
+                     <div class="catnm">🥣 ซุป</div>
+                     <div class="catct">19 ร้าน</div>
+                  </div>
+               </div>
+               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="210">
+                  <div class="catcard" data-filter="Fast Food">
+                     <img class="catimg" src="img/category-new/fastfood.jpg" alt="Fast Food"/>
+                     <div class="catnm">🍔 Fast Food</div>
+                     <div class="catct">27 ร้าน</div>
+                  </div>
+               </div>
+               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="280">
+                  <div class="catcard" data-filter="ญี่ปุ่น">
+                     <img class="catimg" src="img/category-new/japanese.jpg" alt="ญี่ปุ่น"/>
+                     <div class="catnm">🍣 ญี่ปุ่น</div>
+                     <div class="catct">24 ร้าน</div>
+                  </div>
+               </div>
+               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="350">
+                  <div class="catcard" data-filter="ของหวาน">
+                     <img class="catimg" src="img/category-new/dessert.jpg" alt="ของหวาน"/>
+                     <div class="catnm">🍰 ของหวาน</div>
+                     <div class="catct">31 ร้าน</div>
+                  </div>
+               </div>
+               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="420">
+                  <div class="catcard" data-filter="เผ็ด">
+                     <img class="catimg" src="img/category-new/spicy.jpg" alt="เผ็ด"/>
+                     <div class="catnm">🌶️ เผ็ด</div>
+                     <div class="catct">29 ร้าน</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- ABOUT -->
+      <section id="about">
+         <div class="container">
+            <div class="row align-items-center g-5">
+               <div class="col-lg-5" data-aos="fade-right">
+                  <div class="astack">
+                     <div class="aexp"><span class="anum">3+</span><small data-th="มหาวิทยาลัย<br/>นำร่อง" data-en="pilot<br/>universities">มหาวิทยาลัย<br/>นำร่อง</small></div>
+                     <div class="amain"><img src="img/menu-new/khaomangai.jpg" alt="อาหารไทยของชิมชิม"/></div>
+                     <div class="asm"><img src="img/gallery-new/thai.jpg" alt=""/></div>
+                  </div>
+               </div>
+               <div class="col-lg-7" data-aos="fade-left">
+                  <span class="slbl" data-th="แนวคิดของเรา" data-en="Our Story">แนวคิดของเรา</span>
+                  <h2 class="stitle text-start" data-th="ไม่ใช่แอปค้นหาร้านอาหาร<br/>แต่เป็น<span>เพื่อนที่รู้ใจคุณ</span>" data-en="Not another restaurant app<br/>but a <span>friend who gets you</span>">ไม่ใช่แอปค้นหาร้านอาหาร<br/>แต่เป็น<span>เพื่อนที่รู้ใจคุณ</span></h2>
+                  <div class="sline lft"></div>
+                  <p class="sdesc mb-4" data-th="วันนี้ไม่รู้จะกินอะไร อยากลองร้านใหม่แต่ไม่มั่นใจ รีวิวมีเยอะแต่ไม่ตรงรสนิยมเรา - ชิมชิมเกิดมาเพื่อแก้ปัญหานี้ ด้วยการเรียนรู้ว่าคุณชอบกินอะไรจริง ๆ แล้วใช้ AI ช่วยเลือกให้" data-en="Not sure what to eat? Want to try somewhere new but not sure it's good? Reviews everywhere but none match your taste - chimchim learns what you actually love and lets AI choose for you.">วันนี้ไม่รู้จะกินอะไร อยากลองร้านใหม่แต่ไม่มั่นใจ รีวิวมีเยอะแต่ไม่ตรงรสนิยมเรา - ชิมชิมเกิดมาเพื่อแก้ปัญหานี้ ด้วยการเรียนรู้ว่าคุณชอบกินอะไรจริง ๆ แล้วใช้ AI ช่วยเลือกให้</p>
+                  <div class="mb-4">
+                     <div class="fti">
+                        <div class="ftico r"><i class="fas fa-brain"></i></div>
+                        <div>
+                           <h6 data-th="รู้จักคุณจริง ๆ" data-en="Actually knows you">รู้จักคุณจริง ๆ</h6>
+                           <p data-th="Food DNA เรียนรู้จากพฤติกรรมการกินของคุณทุกครั้งที่ใช้งาน" data-en="Food DNA learns from your eating behavior every time you use it">Food DNA เรียนรู้จากพฤติกรรมการกินของคุณทุกครั้งที่ใช้งาน</p>
+                        </div>
+                     </div>
+                     <div class="fti">
+                        <div class="ftico y"><i class="fas fa-chart-simple"></i></div>
+                        <div>
+                           <h6 data-th="Match % ต้องมาจากข้อมูลจริง" data-en="Match % is always real data">Match % ต้องมาจากข้อมูลจริง</h6>
+                           <p data-th="ไม่มีการปั้นตัวเลขมั่ว ทุกเปอร์เซ็นต์คำนวณจากรสนิยมคุณเสมอ" data-en="No made-up numbers - every percentage is calculated from your real taste profile">ไม่มีการปั้นตัวเลขมั่ว ทุกเปอร์เซ็นต์คำนวณจากรสนิยมคุณเสมอ</p>
+                        </div>
+                     </div>
+                     <div class="fti">
+                        <div class="ftico g"><i class="fas fa-compass"></i></div>
+                        <div>
+                           <h6 data-th="ค้นพบร้านใหม่ทุกวัน" data-en="Discover something new daily">ค้นพบร้านใหม่ทุกวัน</h6>
+                           <p data-th="ไม่ใช่แค่ร้านเดิม ๆ แต่ชวนคุณลองสิ่งใหม่ที่น่าจะถูกใจ" data-en="Not just the usual spots - we nudge you toward new places you'll likely love">ไม่ใช่แค่ร้านเดิม ๆ แต่ชวนคุณลองสิ่งใหม่ที่น่าจะถูกใจ</p>
+                        </div>
+                     </div>
+                  </div>
+                  <a href="#ai-finder" class="btn-red"><i class="fas fa-brain"></i><span data-th="ลองเลย AI Food Finder" data-en="Try AI Food Finder">ลองเลย AI Food Finder</span></a>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- ============================================================
+         DISCOVERY FEED (เดิมคือ Menu)
+         ============================================================ -->
+      <section id="feed">
+         <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" data-th="สำหรับคุณโดยเฉพาะ" data-en="Picked for you">สำหรับคุณโดยเฉพาะ</span>
+               <h2 class="stitle" data-th="Discovery <span>Feed</span>" data-en="Discovery <span>Feed</span>">Discovery <span>Feed</span></h2>
+               <div class="sline"></div>
+            </div>
+            <div class="text-center mb-4" data-aos="fade-up">
+               <button class="filtbtn active" data-f="foryou" data-th="For You" data-en="For You">For You</button>
+               <button class="filtbtn" data-f="nearyou" data-th="Near You" data-en="Near You">Near You</button>
+               <button class="filtbtn" data-f="hidden" data-th="Hidden Gems" data-en="Hidden Gems">Hidden Gems</button>
+               <button class="filtbtn" data-f="popular" data-th="Popular" data-en="Popular">Popular</button>
+               <button class="filtbtn" data-f="new" data-th="New" data-en="New">New</button>
+            </div>
+            <div class="row g-4" id="mgrid">
+               <!-- CARD 1 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="ข้าว" data-bucket="foryou,popular" data-aos="fade-up">
+                  <div class="mcard"
+                     data-id="1"
+                     data-img="img/menu-new/khaomangai.jpg"
+                     data-title="ข้าวมันไก่เจ๊หมวย"
+                     data-restaurant="เจ๊หมวย ข้าวมันไก่"
+                     data-price="฿60–100"
+                     data-distance="350 ม."
+                     data-desc="เพราะคุณชอบอาหารไทยรสกลมกล่อม แถมราคาแค่หลักสิบ ร้านนี้คนต่อคิวแน่นทุกเที่ยง"
+                     data-tags="ข้าว,ร้านโปรด,อิ่มคุ้ม">
+                     <div class="mimg">
+                        <img src="img/menu-new/khaomangai.jpg" alt="ข้าวมันไก่เจ๊หมวย"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🍚 ข้าว</div>
+                        <div class="mrestaurant">เจ๊หมวย ข้าวมันไก่</div>
+                        <div class="mtit">ข้าวมันไก่เจ๊หมวย</div>
+                        <div class="mdesc">เพราะคุณชอบอาหารไทยรสกลมกล่อม แถมราคาแค่หลักสิบ ร้านนี้คนต่อคิวแน่นทุกเที่ยง</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿60–100</span><span><i class="fas fa-location-dot"></i>350 ม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">ข้าว</span><span class="mtagit">ร้านโปรด</span><span class="mtagit">อิ่มคุ้ม</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 2 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="ข้าว" data-bucket="foryou,hidden" data-aos="fade-up" data-aos-delay="80">
+                  <div class="mcard"
+                     data-id="2"
+                     data-img="img/menu-new/khaomukrob.jpg"
+                     data-title="ข้าวหมูกรอบน้ำแดง"
+                     data-restaurant="หมูกรอบเจ๊ยุ้ย"
+                     data-price="฿50–80"
+                     data-distance="250 ม."
+                     data-desc="ข้าวหมูกรอบซอสแดงสูตรเข้มข้น เหมาะกับคนงบไม่เกินร้อยแบบคุณ"
+                     data-tags="ข้าว,หมูกรอบ,งบน้อย">
+                     <div class="mimg">
+                        <img src="img/menu-new/khaomukrob.jpg" alt="ข้าวหมูกรอบน้ำแดง"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🍚 ข้าว</div>
+                        <div class="mrestaurant">หมูกรอบเจ๊ยุ้ย</div>
+                        <div class="mtit">ข้าวหมูกรอบน้ำแดง</div>
+                        <div class="mdesc">ข้าวหมูกรอบซอสแดงสูตรเข้มข้น เหมาะกับคนงบไม่เกินร้อยแบบคุณ</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿50–80</span><span><i class="fas fa-location-dot"></i>250 ม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">ข้าว</span><span class="mtagit">หมูกรอบ</span><span class="mtagit">งบน้อย</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 3 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="เส้น" data-bucket="foryou,new" data-aos="fade-up" data-aos-delay="160">
+                  <div class="mcard"
+                     data-id="3"
+                     data-img="img/menu-new/ramen.jpg"
+                     data-title="ราเมงทงคตสึต้นตำรับ"
+                     data-restaurant="ราเมงคุมะ"
+                     data-price="฿150–220"
+                     data-distance="1.2 กม."
+                     data-desc="คุณเคย Save เมนูญี่ปุ่นไว้บ่อย ราเมงชามนี้น้ำซุปข้นถึงใจ"
+                     data-tags="เส้น,ญี่ปุ่น,น้ำซุปข้น">
+                     <div class="mimg">
+                        <img src="img/menu-new/ramen.jpg" alt="ราเมงทงคตสึต้นตำรับ"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🍜 เส้น</div>
+                        <div class="mrestaurant">ราเมงคุมะ</div>
+                        <div class="mtit">ราเมงทงคตสึต้นตำรับ</div>
+                        <div class="mdesc">คุณเคย Save เมนูญี่ปุ่นไว้บ่อย ราเมงชามนี้น้ำซุปข้นถึงใจ</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿150–220</span><span><i class="fas fa-location-dot"></i>1.2 กม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">เส้น</span><span class="mtagit">ญี่ปุ่น</span><span class="mtagit">น้ำซุปข้น</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 4 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="เส้น" data-bucket="hidden,popular" data-aos="fade-up">
+                  <div class="mcard"
+                     data-id="4"
+                     data-img="img/menu-new/padthai.jpg"
+                     data-title="ผัดไทยกุ้งสด"
+                     data-restaurant="ผัดไทยป้านิด"
+                     data-price="฿60–90"
+                     data-distance="400 ม."
+                     data-desc="ผัดไทยรสเปรี้ยวหวานกำลังดี ร้านซ่อนอยู่ในซอยที่คนแถวนี้รู้กัน"
+                     data-tags="เส้น,คลาสสิก">
+                     <div class="mimg">
+                        <img src="img/menu-new/padthai.jpg" alt="ผัดไทยกุ้งสด"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🍜 เส้น</div>
+                        <div class="mrestaurant">ผัดไทยป้านิด</div>
+                        <div class="mtit">ผัดไทยกุ้งสด</div>
+                        <div class="mdesc">ผัดไทยรสเปรี้ยวหวานกำลังดี ร้านซ่อนอยู่ในซอยที่คนแถวนี้รู้กัน</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿60–90</span><span><i class="fas fa-location-dot"></i>400 ม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">เส้น</span><span class="mtagit">คลาสสิก</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 5 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="ซุป" data-bucket="popular,new" data-aos="fade-up" data-aos-delay="80">
+                  <div class="mcard"
+                     data-id="5"
+                     data-img="img/menu-new/tomyum.jpg"
+                     data-title="ต้มยำกุ้งน้ำข้น"
+                     data-restaurant="ต้มยำโกทอง"
+                     data-price="฿120–180"
+                     data-distance="800 ม."
+                     data-desc="ต้มยำรสจัดจ้านถูกปากคนชอบเผ็ด แถมกำลังเป็นเมนูที่คนรีวิวเยอะสัปดาห์นี้"
+                     data-tags="ซุป,เผ็ด,ต้องลอง">
+                     <div class="mimg">
+                        <img src="img/menu-new/tomyum.jpg" alt="ต้มยำกุ้งน้ำข้น"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🥣 ซุป</div>
+                        <div class="mrestaurant">ต้มยำโกทอง</div>
+                        <div class="mtit">ต้มยำกุ้งน้ำข้น</div>
+                        <div class="mdesc">ต้มยำรสจัดจ้านถูกปากคนชอบเผ็ด แถมกำลังเป็นเมนูที่คนรีวิวเยอะสัปดาห์นี้</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿120–180</span><span><i class="fas fa-location-dot"></i>800 ม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">ซุป</span><span class="mtagit">เผ็ด</span><span class="mtagit">ต้องลอง</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 6 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="Fast Food" data-bucket="nearyou,popular" data-aos="fade-up" data-aos-delay="160">
+                  <div class="mcard"
+                     data-id="6"
+                     data-img="img/menu-new/cheeseburger.jpg"
+                     data-title="ชีสเบอร์เกอร์ดับเบิ้ล"
+                     data-restaurant="Fast Bite Corner"
+                     data-price="฿90–130"
+                     data-distance="600 ม."
+                     data-desc="เบอร์เกอร์เนื้อแน่น ๆ ใกล้คุณแค่ไม่กี่นาทีเดิน เผื่อวันไหนอยากพักจากอาหารไทย"
+                     data-tags="Fast Food,เนื้อ">
+                     <div class="mimg">
+                        <img src="img/menu-new/cheeseburger.jpg" alt="ชีสเบอร์เกอร์ดับเบิ้ล"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🍔 Fast Food</div>
+                        <div class="mrestaurant">Fast Bite Corner</div>
+                        <div class="mtit">ชีสเบอร์เกอร์ดับเบิ้ล</div>
+                        <div class="mdesc">เบอร์เกอร์เนื้อแน่น ๆ ใกล้คุณแค่ไม่กี่นาทีเดิน เผื่อวันไหนอยากพักจากอาหารไทย</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿90–130</span><span><i class="fas fa-location-dot"></i>600 ม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">Fast Food</span><span class="mtagit">เนื้อ</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 7 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="ญี่ปุ่น" data-bucket="nearyou,new" data-aos="fade-up">
+                  <div class="mcard"
+                     data-id="7"
+                     data-img="img/menu-new/sushi.jpg"
+                     data-title="ซูชิแซลมอนโรล"
+                     data-restaurant="ซูชิยูกิ"
+                     data-price="฿180–280"
+                     data-distance="1.5 กม."
+                     data-desc="ซูชิแซลมอนสดชิ้นโต ถูกใจคนที่ Food DNA บอกว่าชอบอาหารญี่ปุ่น"
+                     data-tags="ญี่ปุ่น,ปลาแซลมอน">
+                     <div class="mimg">
+                        <img src="img/menu-new/sushi.jpg" alt="ซูชิแซลมอนโรล"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🍣 ญี่ปุ่น</div>
+                        <div class="mrestaurant">ซูชิยูกิ</div>
+                        <div class="mtit">ซูชิแซลมอนโรล</div>
+                        <div class="mdesc">ซูชิแซลมอนสดชิ้นโต ถูกใจคนที่ Food DNA บอกว่าชอบอาหารญี่ปุ่น</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿180–280</span><span><i class="fas fa-location-dot"></i>1.5 กม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">ญี่ปุ่น</span><span class="mtagit">ปลาแซลมอน</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 8 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="ของหวาน" data-bucket="new,popular" data-aos="fade-up" data-aos-delay="80">
+                  <div class="mcard"
+                     data-id="8"
+                     data-img="img/menu-new/bingsu.jpg"
+                     data-title="บิงซูมัทฉะ"
+                     data-restaurant="บิงซูเกาหลีน้องหมี"
+                     data-price="฿89–129"
+                     data-distance="900 ม."
+                     data-desc="บิงซูมัทฉะเกาหลีหวานละมุน ของหวานที่กำลังมาแรงในกลุ่มเพื่อนที่คุณ Follow"
+                     data-tags="ของหวาน,เกาหลี,ชาเขียว">
+                     <div class="mimg">
+                        <img src="img/menu-new/bingsu.jpg" alt="บิงซูมัทฉะ"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🍰 ของหวาน</div>
+                        <div class="mrestaurant">บิงซูเกาหลีน้องหมี</div>
+                        <div class="mtit">บิงซูมัทฉะ</div>
+                        <div class="mdesc">บิงซูมัทฉะเกาหลีหวานละมุน ของหวานที่กำลังมาแรงในกลุ่มเพื่อนที่คุณ Follow</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿89–129</span><span><i class="fas fa-location-dot"></i>900 ม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">ของหวาน</span><span class="mtagit">เกาหลี</span><span class="mtagit">ชาเขียว</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 9 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="ของหวาน" data-bucket="foryou,popular" data-aos="fade-up" data-aos-delay="160">
+                  <div class="mcard"
+                     data-id="9"
+                     data-img="img/menu-new/chathai.jpg"
+                     data-title="ชาไทยเย็นต้นตำรับ"
+                     data-restaurant="ชาไทยลุงหมี"
+                     data-price="฿25–45"
+                     data-distance="200 ม."
+                     data-desc="ชาไทยแก้วโปรดของใครหลายคน ราคาเบา ๆ กินได้ทุกวัน"
+                     data-tags="เครื่องดื่ม,ของหวาน,งบน้อย">
+                     <div class="mimg">
+                        <img src="img/menu-new/chathai.jpg" alt="ชาไทยเย็นต้นตำรับ"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🍰 ของหวาน</div>
+                        <div class="mrestaurant">ชาไทยลุงหมี</div>
+                        <div class="mtit">ชาไทยเย็นต้นตำรับ</div>
+                        <div class="mdesc">ชาไทยแก้วโปรดของใครหลายคน ราคาเบา ๆ กินได้ทุกวัน</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿25–45</span><span><i class="fas fa-location-dot"></i>200 ม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">เครื่องดื่ม</span><span class="mtagit">ของหวาน</span><span class="mtagit">งบน้อย</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 10 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="เผ็ด" data-bucket="foryou,popular" data-aos="fade-up">
+                  <div class="mcard"
+                     data-id="10"
+                     data-img="img/menu-new/kraprao.jpg"
+                     data-title="กะเพราหมูสับไข่ดาว"
+                     data-restaurant="ครัวคุณป้า"
+                     data-price="฿50–70"
+                     data-distance="500 ม."
+                     data-desc="กะเพราไข่ดาวรสจัดจ้าน ตรงกับที่คุณปักหมุดไว้ว่าชอบเผ็ด"
+                     data-tags="เผ็ด,ข้าวราด,งบน้อย">
+                     <div class="mimg">
+                        <img src="img/menu-new/kraprao.jpg" alt="กะเพราหมูสับไข่ดาว"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🌶️ เผ็ด</div>
+                        <div class="mrestaurant">ครัวคุณป้า</div>
+                        <div class="mtit">กะเพราหมูสับไข่ดาว</div>
+                        <div class="mdesc">กะเพราไข่ดาวรสจัดจ้าน ตรงกับที่คุณปักหมุดไว้ว่าชอบเผ็ด</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿50–70</span><span><i class="fas fa-location-dot"></i>500 ม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">เผ็ด</span><span class="mtagit">ข้าวราด</span><span class="mtagit">งบน้อย</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 11 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="เผ็ด" data-bucket="foryou,hidden" data-aos="fade-up" data-aos-delay="80">
+                  <div class="mcard"
+                     data-id="11"
+                     data-img="img/menu-new/somtam.jpg"
+                     data-title="ส้มตำไทยรสแซ่บ"
+                     data-restaurant="ส้มตำป้าแดง"
+                     data-price="฿40–60"
+                     data-distance="300 ม."
+                     data-desc="ส้มตำรสแซ่บถึงเครื่อง ร้านนี้ยังไม่ค่อยมีคนรีวิวแต่รสชาติไม่ธรรมดา"
+                     data-tags="เผ็ด,ส้มตำ,งบน้อย">
+                     <div class="mimg">
+                        <img src="img/menu-new/somtam.jpg" alt="ส้มตำไทยรสแซ่บ"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🌶️ เผ็ด</div>
+                        <div class="mrestaurant">ส้มตำป้าแดง</div>
+                        <div class="mtit">ส้มตำไทยรสแซ่บ</div>
+                        <div class="mdesc">ส้มตำรสแซ่บถึงเครื่อง ร้านนี้ยังไม่ค่อยมีคนรีวิวแต่รสชาติไม่ธรรมดา</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿40–60</span><span><i class="fas fa-location-dot"></i>300 ม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">เผ็ด</span><span class="mtagit">ส้มตำ</span><span class="mtagit">งบน้อย</span></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 12 -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="เผ็ด" data-bucket="hidden,new" data-aos="fade-up" data-aos-delay="160">
+                  <div class="mcard"
+                     data-id="12"
+                     data-img="img/menu-new/mala.jpg"
+                     data-title="หมาล่าเผ็ดทะลุจักรวาล"
+                     data-restaurant="หมาล่าเสฉวน"
+                     data-price="฿150–250"
+                     data-distance="1.8 กม."
+                     data-desc="หมาล่าเผ็ดจัดจ้านระดับเปิดโลก เหมาะกับคนที่กล้าลองความเผ็ดขั้นสุด"
+                     data-tags="เผ็ดมาก,จีน">
+                     <div class="mimg">
+                        <img src="img/menu-new/mala.jpg" alt="หมาล่าเผ็ดทะลุจักรวาล"/>
+                        <div class="mmatch"></div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">🌶️ เผ็ด</div>
+                        <div class="mrestaurant">หมาล่าเสฉวน</div>
+                        <div class="mtit">หมาล่าเผ็ดทะลุจักรวาล</div>
+                        <div class="mdesc">หมาล่าเผ็ดจัดจ้านระดับเปิดโลก เหมาะกับคนที่กล้าลองความเผ็ดขั้นสุด</div>
+                        <div class="mmeta"><span><i class="fas fa-tag"></i>฿150–250</span><span><i class="fas fa-location-dot"></i>1.8 กม.</span></div>
+                        <div class="mtagswrap"><span class="mtagit">เผ็ดมาก</span><span class="mtagit">จีน</span></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- end #mgrid -->
+         </div>
+      </section>
+      <!-- ============================================================
+         MENU DETAIL POPUP MODAL
+         ============================================================ -->
+      <div id="menuPop">
+         <div class="mpbox">
+            <button class="mpclose" id="mpClose"><i class="fas fa-times"></i></button>
+            <div class="mpimg"><img id="mpImg" src="" alt=""/></div>
+            <div class="mpbody">
+               <div id="mpCat"></div>
+               <div id="mpTitle"></div>
+               <div id="mpRestaurant" style="font-size:.85rem;color:#999;margin-bottom:8px;"></div>
+               <div id="mpMatch" class="mpmatch"></div>
+               <div id="mpReason" class="mpreason"></div>
+               <div id="mpDesc"></div>
+               <div id="mpPrice"></div>
+               <div class="mpmeta" id="mpMeta"></div>
+               <div class="mptags" id="mpTags"></div>
+               <div class="mpactions">
+                  <button class="mpactbtn" id="mpSaveBtn" data-act="save"><i class="far fa-heart"></i><span data-th="Save" data-en="Save">Save</span></button>
+                  <button class="mpactbtn" id="mpFollowBtn" data-act="follow"><i class="fas fa-user-plus"></i><span data-th="Follow ร้าน" data-en="Follow shop">Follow ร้าน</span></button>
+                  <button class="mpactbtn" id="mpNavBtn" data-act="nav"><i class="fas fa-diamond-turn-right"></i><span data-th="นำทาง" data-en="Directions">นำทาง</span></button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- SPONSORED -->
+      <section id="special">
+         <div class="spbg"></div>
+         <div class="container" style="position:relative;z-index:2;">
+            <div class="row align-items-center g-5">
+               <div class="col-lg-6" data-aos="fade-right">
+                  <div class="sptag"><i class="fas fa-star me-1"></i>⭐ Sponsored</div>
+                  <h2 class="sptitle" id="spTitle">Seoul Grill House<br/><span>หมูย่างเกาหลี</span> เซ็ตพรีเมียม</h2>
+                  <p class="spmatch" id="spMatch"></p>
+                  <p class="spdesc" data-th="ร้านนี้จ่ายค่าโปรโมทเพื่อให้คนที่ Food DNA ตรงกันเห็นร้านก่อน แต่ Match % ยังคำนวณจากข้อมูลจริงเหมือนร้านอื่นทุกประการ ห้ามปั้นตัวเลขปลอมเด็ดขาด" data-en="This shop paid to boost visibility to matching Food DNA users - but the Match % is still calculated the same real way as every other shop. No faked numbers, ever.">ร้านนี้จ่ายค่าโปรโมทเพื่อให้คนที่ Food DNA ตรงกันเห็นร้านก่อน แต่ Match % ยังคำนวณจากข้อมูลจริงเหมือนร้านอื่นทุกประการ ห้ามปั้นตัวเลขปลอมเด็ดขาด</p>
+                  <div class="cdwrap">
+                     <div class="cditem"><span class="cdnum" id="cdH">08</span><span class="cdlbl" data-th="ชั่วโมง" data-en="Hours">ชั่วโมง</span></div>
+                     <div class="cditem"><span class="cdnum" id="cdM">45</span><span class="cdlbl" data-th="นาที" data-en="Minutes">นาที</span></div>
+                     <div class="cditem"><span class="cdnum" id="cdS">30</span><span class="cdlbl" data-th="วินาที" data-en="Seconds">วินาที</span></div>
+                  </div>
+                  <a href="#feed" class="btn-red"><i class="fas fa-store"></i><span data-th="ดูร้านนี้" data-en="View shop">ดูร้านนี้</span></a>
+               </div>
+               <div class="col-lg-6" data-aos="fade-left">
+                  <div class="spimgw">
+                     <div class="spglow"></div>
+                     <div class="sppbdg"><span class="np">฿259–359</span></div>
+                     <img src="img/sponsor-new/sponsor.jpg" alt="Seoul Grill House"/>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- ============================================================
+         GALLERY (คลังภาพอาหาร / Trending)
+         ============================================================ -->
+      <section id="gallery">
+         <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" data-th="คลังภาพอาหาร" data-en="Food Showcase">คลังภาพอาหาร</span>
+               <h2 class="stitle" data-th="กำลังเป็นที่<span>สนใจตอนนี้</span>" data-en="What's <span>Trending</span> Now">กำลังเป็นที่<span>สนใจตอนนี้</span></h2>
+               <div class="sline"></div>
+            </div>
+            <div class="ggrid" data-aos="fade-up">
+               <div class="gitem"
+                  data-gi="0"
+                  data-gimg="img/gallery-new/thai.jpg"
+                  data-gtitle="อาหารไทยเลื่องชื่อ"
+                  data-gdesc="ผัดไทยกุ้งสดถึงเครื่อง หนึ่งในเมนูไทยที่คนรีวิวในชิมชิมกันมากที่สุด">
+                  <img src="img/gallery-new/thai.jpg" alt="อาหารไทย"/>
+                  <div class="gover"><span><i class="fas fa-expand-alt"></i> อาหารไทยเลื่องชื่อ</span></div>
+               </div>
+               <div class="gitem"
+                  data-gi="1"
+                  data-gimg="img/gallery-new/japan.jpg"
+                  data-gtitle="ญี่ปุ่นจัดเต็ม"
+                  data-gdesc="เซ็ตซูชิและเบนโตะสไตล์ญี่ปุ่นแท้ ๆ จากร้านที่ Food DNA สายญี่ปุ่นต้องกดเซฟ">
+                  <img src="img/gallery-new/japan.jpg" alt="อาหารญี่ปุ่น"/>
+                  <div class="gover"><span><i class="fas fa-expand-alt"></i> ญี่ปุ่นจัดเต็ม</span></div>
+               </div>
+               <div class="gitem"
+                  data-gi="2"
+                  data-gimg="img/gallery-new/korea.jpg"
+                  data-gtitle="เกาหลีต้องลอง"
+                  data-gdesc="ไก่ทอดเกาหลีซอสเผ็ดหวานตัดกันลงตัว เมนูฮิตที่คนตามรอยจากรีวิวเยอะที่สุด">
+                  <img src="img/gallery-new/korea.jpg" alt="อาหารเกาหลี"/>
+                  <div class="gover"><span><i class="fas fa-expand-alt"></i> เกาหลีต้องลอง</span></div>
+               </div>
+               <div class="gitem"
+                  data-gi="3"
+                  data-gimg="img/gallery-new/dessert.jpg"
+                  data-gtitle="ของหวานฟินสุด"
+                  data-gdesc="เค้กและเบเกอรี่หน้าตาน่ารักจากร้านของหวานที่คนตามรอยในชิมชิม">
+                  <img src="img/gallery-new/dessert.jpg" alt="ของหวาน"/>
+                  <div class="gover"><span><i class="fas fa-expand-alt"></i> ของหวานฟินสุด</span></div>
+               </div>
+               <div class="gitem"
+                  data-gi="4"
+                  data-gimg="img/gallery-new/drink.jpg"
+                  data-gtitle="เครื่องดื่มคลายร้อน"
+                  data-gdesc="ชาไทยเย็นแก้วโต ตัวช่วยคลายร้อนที่คนสั่งคู่กับทุกมื้อ">
+                  <img src="img/gallery-new/drink.jpg" alt="เครื่องดื่ม"/>
+                  <div class="gover"><span><i class="fas fa-expand-alt"></i> เครื่องดื่มคลายร้อน</span></div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- GALLERY POPUP -->
+      <div id="galPop">
+         <div class="gpbox">
+            <button class="gpclose" id="gpClose"><i class="fas fa-times"></i></button>
+            <img id="gpImg" src="" alt=""/>
+            <div class="gpcap">
+               <h5 id="gpTitle"></h5>
+               <p id="gpDesc"></p>
+            </div>
+            <div class="gpnav">
+               <button id="gpPrev"><i class="fas fa-chevron-left me-1"></i>Prev</button>
+               <button id="gpNext">Next <i class="fas fa-chevron-right ms-1"></i></button>
+            </div>
+         </div>
+      </div>
+      <!-- ============================================================
+         HISTORY — เส้นทางของชิมชิม
+         ============================================================ -->
+      <section id="history">
+         <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" data-th="เส้นทางของเรา" data-en="Our Journey">เส้นทางของเรา</span>
+               <h2 class="stitle" data-th="เส้นทางของ<span>ชิมชิม</span>" data-en="The Journey of <span>Chimchim</span>">เส้นทางของ<span>ชิมชิม</span></h2>
+               <div class="sline"></div>
+               <p class="sdesc mx-auto" style="max-width:480px;" data-th="จากไอเดียแก้ปัญหา 'วันนี้จะกินอะไรดี' สู่แอปที่รู้ใจนักศึกษาทั่วกรุงเทพฯ" data-en="From solving 'what should I eat today' to an app that gets students across Bangkok">จากไอเดียแก้ปัญหา 'วันนี้จะกินอะไรดี' สู่แอปที่รู้ใจนักศึกษาทั่วกรุงเทพฯ</p>
+            </div>
+            <div class="timeline" data-aos="fade-up">
+               <div class="tli">
+                  <div class="tl-left">
+                     <div class="tlyear">2023</div>
+                     <h5 data-th="แนวคิดเริ่มต้น" data-en="The Initial Idea">แนวคิดเริ่มต้น</h5>
+                     <p data-th="เริ่มจากปัญหาที่เจอทุกวัน: ไม่รู้จะกินอะไร อยากลองร้านใหม่แต่ไม่มั่นใจว่าจะถูกปาก จึงเกิดไอเดียแอปที่รู้ใจคนกิน" data-en="It started from a daily problem: not knowing what to eat, wanting to try somewhere new but unsure it'd suit you - the idea for an app that truly knows the eater was born">เริ่มจากปัญหาที่เจอทุกวัน: ไม่รู้จะกินอะไร อยากลองร้านใหม่แต่ไม่มั่นใจว่าจะถูกปาก จึงเกิดไอเดียแอปที่รู้ใจคนกิน</p>
+                  </div>
+                  <div class="tl-center"><div class="tldot"></div></div>
+                  <div class="tl-right">
+                     <div class="tlyear">2023</div>
+                     <h5 data-th="แนวคิดเริ่มต้น" data-en="The Initial Idea">แนวคิดเริ่มต้น</h5>
+                     <p data-th="เริ่มจากปัญหาที่เจอทุกวัน: ไม่รู้จะกินอะไร อยากลองร้านใหม่แต่ไม่มั่นใจว่าจะถูกปาก จึงเกิดไอเดียแอปที่รู้ใจคนกิน" data-en="It started from a daily problem: not knowing what to eat, wanting to try somewhere new but unsure it'd suit you - the idea for an app that truly knows the eater was born">เริ่มจากปัญหาที่เจอทุกวัน: ไม่รู้จะกินอะไร อยากลองร้านใหม่แต่ไม่มั่นใจว่าจะถูกปาก จึงเกิดไอเดียแอปที่รู้ใจคนกิน</p>
+                  </div>
+               </div>
+               <div class="tli">
+                  <div class="tl-left">
+                     <div class="tlyear">2024</div>
+                     <h5 data-th="Food DNA ถือกำเนิด" data-en="Food DNA is Born">Food DNA ถือกำเนิด</h5>
+                     <p data-th="จุดเริ่มต้นของระบบที่ทำให้ชิมชิมต่างจากแอปรีวิวทั่วไป - เก็บรสนิยม พฤติกรรม และงบประมาณของผู้ใช้แต่ละคนอย่างจริงจัง" data-en="The system that sets chimchim apart from typical review apps - seriously capturing each user's taste, behavior and budget">จุดเริ่มต้นของระบบที่ทำให้ชิมชิมต่างจากแอปรีวิวทั่วไป - เก็บรสนิยม พฤติกรรม และงบประมาณของผู้ใช้แต่ละคนอย่างจริงจัง</p>
+                  </div>
+                  <div class="tl-center"><div class="tldot"></div></div>
+                  <div class="tl-right">
+                     <div class="tlyear">2024</div>
+                     <h5 data-th="Food DNA ถือกำเนิด" data-en="Food DNA is Born">Food DNA ถือกำเนิด</h5>
+                     <p data-th="จุดเริ่มต้นของระบบที่ทำให้ชิมชิมต่างจากแอปรีวิวทั่วไป - เก็บรสนิยม พฤติกรรม และงบประมาณของผู้ใช้แต่ละคนอย่างจริงจัง" data-en="The system that sets chimchim apart from typical review apps - seriously capturing each user's taste, behavior and budget">จุดเริ่มต้นของระบบที่ทำให้ชิมชิมต่างจากแอปรีวิวทั่วไป - เก็บรสนิยม พฤติกรรม และงบประมาณของผู้ใช้แต่ละคนอย่างจริงจัง</p>
+                  </div>
+               </div>
+               <div class="tli">
+                  <div class="tl-left">
+                     <div class="tlyear">2025</div>
+                     <h5 data-th="MVP แรกพร้อมทดสอบ" data-en="First MVP Launches">MVP แรกพร้อมทดสอบ</h5>
+                     <p data-th="Home, AI Food Finder, Food DNA และระบบรีวิว เปิดให้ใช้จริงที่มหาวิทยาลัยนำร่องกลุ่มแรก" data-en="Home, AI Food Finder, Food DNA and the review system go live at the first pilot universities">Home, AI Food Finder, Food DNA และระบบรีวิว เปิดให้ใช้จริงที่มหาวิทยาลัยนำร่องกลุ่มแรก</p>
+                  </div>
+                  <div class="tl-center"><div class="tldot"></div></div>
+                  <div class="tl-right">
+                     <div class="tlyear">2025</div>
+                     <h5 data-th="MVP แรกพร้อมทดสอบ" data-en="First MVP Launches">MVP แรกพร้อมทดสอบ</h5>
+                     <p data-th="Home, AI Food Finder, Food DNA และระบบรีวิว เปิดให้ใช้จริงที่มหาวิทยาลัยนำร่องกลุ่มแรก" data-en="Home, AI Food Finder, Food DNA and the review system go live at the first pilot universities">Home, AI Food Finder, Food DNA และระบบรีวิว เปิดให้ใช้จริงที่มหาวิทยาลัยนำร่องกลุ่มแรก</p>
+                  </div>
+               </div>
+               <div class="tli">
+                  <div class="tl-left">
+                     <div class="tlyear">2026</div>
+                     <h5 data-th="ก้าวต่อไป" data-en="What's Next">ก้าวต่อไป</h5>
+                     <p data-th="กำลังพัฒนา Food Roulette, Following และ Social Feed พร้อมขยายพื้นที่ให้บริการไปยังมหาวิทยาลัยอื่น ๆ" data-en="Building Food Roulette, Following and a Social Feed, while expanding to more universities">กำลังพัฒนา Food Roulette, Following และ Social Feed พร้อมขยายพื้นที่ให้บริการไปยังมหาวิทยาลัยอื่น ๆ</p>
+                  </div>
+                  <div class="tl-center"><div class="tldot"></div></div>
+                  <div class="tl-right">
+                     <div class="tlyear">2026</div>
+                     <h5 data-th="ก้าวต่อไป" data-en="What's Next">ก้าวต่อไป</h5>
+                     <p data-th="กำลังพัฒนา Food Roulette, Following และ Social Feed พร้อมขยายพื้นที่ให้บริการไปยังมหาวิทยาลัยอื่น ๆ" data-en="Building Food Roulette, Following and a Social Feed, while expanding to more universities">กำลังพัฒนา Food Roulette, Following และ Social Feed พร้อมขยายพื้นที่ให้บริการไปยังมหาวิทยาลัยอื่น ๆ</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- FOLLOWING — นักรีวิวเด่นในชุมชน -->
+      <section id="following">
+         <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" data-th="ชุมชนของเรา" data-en="Our Community">ชุมชนของเรา</span>
+               <h2 class="stitle" data-th="นักรีวิวเด่นใน<span>ชุมชน</span>" data-en="Top <span>Food Explorers</span>">นักรีวิวเด่นใน<span>ชุมชน</span></h2>
+               <div class="sline"></div>
+            </div>
+            <div class="row g-4">
+               <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+                  <div class="chcard">
+                     <div class="chimg">
+                        <img src="img/chefs-new/1.jpg" alt="Mint Food"/>
+                     </div>
+                     <div class="chbody">
+                        <div class="chnm">Mint Food</div>
+                        <div class="chlv">🦖 Food Explorer Lv.32</div>
+                        <div class="chexp">214 รีวิว</div>
+                        <button class="followbtn" data-name="Mint Food">+ Follow</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="80">
+                  <div class="chcard">
+                     <div class="chimg">
+                        <img src="img/chefs-new/2.jpg" alt="NoodleLover"/>
+                     </div>
+                     <div class="chbody">
+                        <div class="chnm">NoodleLover</div>
+                        <div class="chlv">🦖 Food Explorer Lv.27</div>
+                        <div class="chexp">128 รีวิว</div>
+                        <button class="followbtn" data-name="NoodleLover">+ Follow</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="160">
+                  <div class="chcard">
+                     <div class="chimg">
+                        <img src="img/chefs-new/3.jpg" alt="SpicyKing"/>
+                     </div>
+                     <div class="chbody">
+                        <div class="chnm">SpicyKing</div>
+                        <div class="chlv">🦖 Food Explorer Lv.41</div>
+                        <div class="chexp">302 รีวิว</div>
+                        <button class="followbtn" data-name="SpicyKing">+ Follow</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="240">
+                  <div class="chcard">
+                     <div class="chimg">
+                        <img src="img/chefs-new/4.jpg" alt="ธนพล เจริญสุข"/>
+                     </div>
+                     <div class="chbody">
+                        <div class="chnm">ธนพล เจริญสุข</div>
+                        <div class="chlv">🦖 Food Explorer Lv.19</div>
+                        <div class="chexp">76 รีวิว</div>
+                        <button class="followbtn" data-name="ธนพล เจริญสุข">+ Follow</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- HOURS — พื้นที่ให้บริการตอนนี้ -->
+      <section id="hours">
+         <div class="hrsbg"></div>
+         <div class="container" style="position:relative;z-index:2;">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" style="color:#d9d3ef;" data-th="พื้นที่บริการ" data-en="Service Areas">พื้นที่บริการ</span>
+               <h2 class="stitle" style="color:#fff;" data-th="พื้นที่ให้บริการ<span style='color:var(--secondary);'>ตอนนี้</span>" data-en="Where We're <span style='color:var(--secondary);'>Live</span> Now">พื้นที่ให้บริการ<span style="color:var(--secondary);">ตอนนี้</span></h2>
+               <div class="sline"></div>
+            </div>
+            <div class="row g-4 align-items-start">
+               <div class="col-lg-5" data-aos="fade-right">
+                  <div class="hrscard">
+                     <div class="hrsrow">
+                        <span class="hrsday"><i class="fas fa-graduation-cap me-2" style="color:var(--secondary);"></i>ธรรมศาสตร์ รังสิต</span>
+                        <div class="d-flex align-items-center gap-2">
+                           <div class="hdot on"></div>
+                           <span class="hrstime" data-th="เปิดให้บริการ" data-en="Live now">เปิดให้บริการ</span>
+                        </div>
+                     </div>
+                     <div class="hrsrow">
+                        <span class="hrsday"><i class="fas fa-graduation-cap me-2" style="color:var(--secondary);"></i>มหาวิทยาลัยกรุงเทพ</span>
+                        <div class="d-flex align-items-center gap-2">
+                           <div class="hdot on"></div>
+                           <span class="hrstime" data-th="เปิดให้บริการ" data-en="Live now">เปิดให้บริการ</span>
+                        </div>
+                     </div>
+                     <div class="hrsrow">
+                        <span class="hrsday"><i class="fas fa-graduation-cap me-2" style="color:var(--secondary);"></i>เกษตรศาสตร์</span>
+                        <div class="d-flex align-items-center gap-2">
+                           <div class="hdot on"></div>
+                           <span class="hrstime" data-th="เปิดให้บริการ" data-en="Live now">เปิดให้บริการ</span>
+                        </div>
+                     </div>
+                     <div class="hrsrow">
+                        <span class="hrsday"><i class="fas fa-graduation-cap me-2" style="color:var(--secondary);"></i>ลาดพร้าว กรุงเทพฯ</span>
+                        <div class="d-flex align-items-center gap-2">
+                           <div class="hdot off"></div>
+                           <span class="hrstime" style="color:#ff8a8a;" data-th="Coming Soon" data-en="Coming Soon">Coming Soon</span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-3" data-aos="zoom-in">
+                  <div class="hrscta">
+                     <i class="fas fa-brain fa-2x mb-3" style="color:rgba(255,255,255,.8);"></i>
+                     <h4 data-th="เริ่มใช้เลย" data-en="Get started">เริ่มใช้เลย</h4>
+                     <p data-th="ให้ AI ช่วยเลือกร้านที่ใช่สำหรับคุณ" data-en="Let AI find the right spot for you">ให้ AI ช่วยเลือกร้านที่ใช่สำหรับคุณ</p>
+                     <a href="#ai-finder" class="btnw" data-th="เริ่มใช้ AI Food Finder →" data-en="Start AI Food Finder →">เริ่มใช้ AI Food Finder →</a>
+                  </div>
+               </div>
+               <div class="col-lg-4" data-aos="fade-left">
+                  <div class="hrscard">
+                     <h5 style="color:#fff;margin-bottom:18px;font-family:'Prompt',sans-serif;font-size:.95rem;font-weight:700;"><i class="fas fa-headset me-2" style="color:var(--secondary);"></i>ติดต่อทีมชิมชิม</h5>
+                     <div class="hrsrow"><span class="hrsday"><i class="fas fa-location-dot me-2" style="color:var(--secondary);"></i>ที่อยู่</span><span class="hrstime" style="font-size:.8rem;">Co-working Space, กรุงเทพฯ</span></div>
+                     <div class="hrsrow"><span class="hrsday"><i class="fas fa-phone me-2" style="color:var(--secondary);"></i>โทร</span><span class="hrstime" style="font-size:.8rem;">02-123-4567</span></div>
+                     <div class="hrsrow"><span class="hrsday"><i class="fas fa-envelope me-2" style="color:var(--secondary);"></i>อีเมล</span><span class="hrstime" style="font-size:.8rem;">hello@chimchim.app</span></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- TESTIMONIALS — รีวิวจากผู้ใช้จริง -->
+      <section id="testimonials">
+         <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" data-th="เสียงจากผู้ใช้" data-en="What people say">เสียงจากผู้ใช้</span>
+               <h2 class="stitle" data-th="รีวิวจาก<span>ผู้ใช้จริง</span>" data-en="Real <span>User Reviews</span>">รีวิวจาก<span>ผู้ใช้จริง</span></h2>
+               <div class="sline"></div>
+            </div>
+            <div class="swiper tesSwiper" data-aos="fade-up">
+               <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                     <div class="tescard">
+                        <div class="tesq">"</div>
+                        <div class="tess"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="testxt">ชิมชิมแนะนำร้านตรงปากตลอด บางร้านไม่เคยได้ยินชื่อมาก่อนเลยด้วยซ้ำ แต่พอลองไปกินก็อร่อยจริงตามที่บอก</p>
+                        <div class="tesauth">
+                           <img src="img/testimonial-new/1.jpg" alt=""/>
+                           <div>
+                              <div class="tesnm">พิมพ์ชนก ว.</div>
+                              <div class="tesrl">นักศึกษาปี 3, ธรรมศาสตร์ รังสิต</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="swiper-slide">
+                     <div class="tescard">
+                        <div class="tesq">"</div>
+                        <div class="tess"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="testxt">เป็นแอปเดียวที่เข้าใจว่าเราชอบกินเผ็ดแค่ไหน งบเท่าไหร่ ไม่ต้องเลื่อนหาเองนานเป็นชั่วโมงเหมือนแอปอื่น</p>
+                        <div class="tesauth">
+                           <img src="img/testimonial-new/2.jpg" alt=""/>
+                           <div>
+                              <div class="tesnm">ภูวนัย เจนวิทย์</div>
+                              <div class="tesrl">นักศึกษา, มหาวิทยาลัยกรุงเทพ</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="swiper-slide">
+                     <div class="tescard">
+                        <div class="tesq">"</div>
+                        <div class="tess"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="testxt">Food DNA เป๊ะมาก ลองเปลี่ยนไปกินร้านที่ไม่เคยไปแล้วก็ชอบจริง ๆ เหมือนมีเพื่อนที่รู้ใจคอยแนะนำ</p>
+                        <div class="tesauth">
+                           <img src="img/testimonial-new/3.jpg" alt=""/>
+                           <div>
+                              <div class="tesnm">Mint Food</div>
+                              <div class="tesrl">Food Reviewer / Influencer</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="swiper-slide">
+                     <div class="tescard">
+                        <div class="tesq">"</div>
+                        <div class="tess"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="testxt">ใช้ตอนไปกินข้าวกับเพื่อนที่ไม่มีใครรู้จะกินอะไรกันเลย ชิมชิมช่วยตัดสินใจได้ไวมาก ทุกคนแฮปปี้</p>
+                        <div class="tesauth">
+                           <img src="img/testimonial-new/4.jpg" alt=""/>
+                           <div>
+                              <div class="tesnm">กัญญ์วรา สุขเจริญ</div>
+                              <div class="tesrl">นักศึกษา, เกษตรศาสตร์</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="swiper-pagination mt-4" style="position:static;"></div>
+            </div>
+         </div>
+      </section>
+      <!-- ============================================================
+         AI FOOD FINDER แบบย่อ (เดิมคือฟอร์มจองโต๊ะ)
+         ============================================================ -->
+      <section id="ai-finder">
+         <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" data-th="ฟีเจอร์หัวใจของเรา" data-en="Our core feature">ฟีเจอร์หัวใจของเรา</span>
+               <h2 class="stitle" data-th="ลอง <span>AI Food Finder</span> แบบย่อ" data-en="Try a mini <span>AI Food Finder</span>">ลอง <span>AI Food Finder</span> แบบย่อ</h2>
+               <div class="sline"></div>
+               <p class="sdesc mx-auto" style="max-width:520px;" data-th="ตอบ 4 คำถามสั้น ๆ แล้วให้ชิมชิมช่วยเลือกร้านที่ใช่สำหรับคุณ" data-en="Answer 4 quick questions and let chimchim find the right shop for you">ตอบ 4 คำถามสั้น ๆ แล้วให้ชิมชิมช่วยเลือกร้านที่ใช่สำหรับคุณ</p>
+            </div>
+            <div class="row g-4 align-items-start">
+               <div class="col-lg-4" data-aos="fade-right">
+                  <div style="background:var(--darkbg);border-radius:24px;padding:36px;">
+                     <h4 style="color:#fff;font-size:1.3rem;margin-bottom:8px;">🦖 AI Food Finder ทำงานยังไง?</h4>
+                     <p style="color:rgba(255,255,255,.6);font-size:.85rem;margin-bottom:26px;">ไม่ใช่การสุ่มมั่ว ๆ แต่มีหลักการเบื้องหลังจริง</p>
+                     <div class="d-flex flex-column gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                           <div style="width:46px;height:46px;border-radius:14px;background:rgba(255,153,157,.2);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-comments"></i></div>
+                           <div><strong style="display:block;color:#ccc;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;">1. ถามสั้น ๆ</strong><span style="color:#fff;font-size:.87rem;">4 คำถาม ไม่ใช่ฟอร์มยาว ๆ น่าเบื่อ</span></div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                           <div style="width:46px;height:46px;border-radius:14px;background:rgba(255,153,157,.2);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-dna"></i></div>
+                           <div><strong style="display:block;color:#ccc;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;">2. รวมกับ Food DNA</strong><span style="color:#fff;font-size:.87rem;">เอาคำตอบไปผสมกับสิ่งที่รู้จักคุณอยู่แล้ว</span></div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                           <div style="width:46px;height:46px;border-radius:14px;background:rgba(255,153,157,.2);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-calculator"></i></div>
+                           <div><strong style="display:block;color:#ccc;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;">3. คำนวณ Match %</strong><span style="color:#fff;font-size:.87rem;">คำนวณจากข้อมูลจริง ไม่ให้ AI เดามั่ว</span></div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                           <div style="width:46px;height:46px;border-radius:14px;background:rgba(255,153,157,.2);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-list-check"></i></div>
+                           <div><strong style="display:block;color:#ccc;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;">4. ได้ร้านที่ใช่</strong><span style="color:#fff;font-size:.87rem;">พร้อมเหตุผลว่าทำไมถึงแนะนำร้านนี้</span></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-8" data-aos="fade-left">
+                  <div class="aiw">
+                     <div class="aiprogress">
+                        <span class="done" id="aip1"></span>
+                        <span id="aip2"></span>
+                        <span id="aip3"></span>
+                        <span id="aip4"></span>
+                     </div>
+
+                     <!-- STEP 1 -->
+                     <div class="aistepbox" id="aiStep1">
+                        <div class="aistepnum">STEP 1/4</div>
+                        <div class="aiq">วันนี้อยากกินอะไร?</div>
+                        <div class="aiopts">
+                           <div class="aiopt" data-step="1" data-val="ข้าว"><span class="aiemo">🍚</span>เมนูข้าว</div>
+                           <div class="aiopt" data-step="1" data-val="เส้น"><span class="aiemo">🍜</span>เมนูเส้น</div>
+                           <div class="aiopt" data-step="1" data-val="ซุป"><span class="aiemo">🥣</span>เมนูซุป</div>
+                           <div class="aiopt" data-step="1" data-val="Fast Food"><span class="aiemo">🍔</span>Fast Food</div>
+                           <div class="aiopt" data-step="1" data-val="ญี่ปุ่น"><span class="aiemo">🍣</span>ญี่ปุ่น</div>
+                           <div class="aiopt" data-step="1" data-val="ของหวาน"><span class="aiemo">🍰</span>ของหวาน</div>
+                           <div class="aiopt" data-step="1" data-val="เผ็ด"><span class="aiemo">🌶️</span>อยากกินเผ็ด</div>
+                           <div class="aiopt" data-step="1" data-val="ไม่รู้"><span class="aiemo">🤷</span>ไม่รู้เลย</div>
+                        </div>
+                     </div>
+
+                     <!-- STEP 2 -->
+                     <div class="aistepbox" id="aiStep2" style="display:none;">
+                        <div class="aistepnum">STEP 2/4</div>
+                        <div class="aiq">วันนี้อยากกินในงบประมาณไหน?</div>
+                        <div class="aiopts">
+                           <div class="aiopt" data-step="2" data-val="ประหยัด"><span class="aiemo">฿</span>ประหยัด (ไม่เกิน 100)</div>
+                           <div class="aiopt" data-step="2" data-val="กำลังดี"><span class="aiemo">฿฿</span>กำลังดี (100–200)</div>
+                           <div class="aiopt" data-step="2" data-val="จัดเต็ม"><span class="aiemo">฿฿฿</span>จัดเต็ม (200+)</div>
+                        </div>
+                        <div class="aistepbtns"><button class="aiback" data-back="1">← ย้อนกลับ</button><span></span></div>
+                     </div>
+
+                     <!-- STEP 3 -->
+                     <div class="aistepbox" id="aiStep3" style="display:none;">
+                        <div class="aistepnum">STEP 3/4</div>
+                        <div class="aiq">อยากไปไกลแค่ไหน?</div>
+                        <div class="aiopts">
+                           <div class="aiopt" data-step="3" data-val="ใกล้ๆ"><span class="aiemo">🚶</span>ใกล้ ๆ (ไม่เกิน 500ม.)</div>
+                           <div class="aiopt" data-step="3" data-val="ไม่ไกลมาก"><span class="aiemo">🛵</span>ไม่ไกลมาก (ไม่เกิน 2กม.)</div>
+                           <div class="aiopt" data-step="3" data-val="ทุกระยะ"><span class="aiemo">🚗</span>ไปได้ขอให้อร่อย</div>
+                        </div>
+                        <div class="aistepbtns"><button class="aiback" data-back="2">← ย้อนกลับ</button><span></span></div>
+                     </div>
+
+                     <!-- STEP 4 -->
+                     <div class="aistepbox" id="aiStep4" style="display:none;">
+                        <div class="aistepnum">STEP 4/4</div>
+                        <div class="aiq">วันนี้อยากได้รสชาติแบบไหน?</div>
+                        <div class="aiopts">
+                           <div class="aiopt" data-step="4" data-val="เผ็ด"><span class="aiemo">🌶️</span>เผ็ด</div>
+                           <div class="aiopt" data-step="4" data-val="หวาน"><span class="aiemo">🍯</span>หวาน</div>
+                           <div class="aiopt" data-step="4" data-val="เค็ม"><span class="aiemo">🧂</span>เค็ม</div>
+                           <div class="aiopt" data-step="4" data-val="เปรี้ยว"><span class="aiemo">🍋</span>เปรี้ยว</div>
+                           <div class="aiopt" data-step="4" data-val="ไม่รู้"><span class="aiemo">🤷</span>ไม่รู้</div>
+                        </div>
+                        <div class="aistepbtns"><button class="aiback" data-back="3">← ย้อนกลับ</button><span></span></div>
+                     </div>
+
+                     <!-- ผลลัพธ์ -->
+                     <div class="airesults" id="airesults">
+                        <div class="aiq">🍽️ วันนี้เราเลือกให้คุณแล้ว</div>
+                        <p id="airesWhy" style="font-size:.8rem;color:#999;margin-bottom:16px;"></p>
+                        <div id="airesList"></div>
+                        <button class="airetrybtn" id="airetryBtn">🔄 ลองหาใหม่อีกครั้ง</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- BLOG -->
+      <section id="blog">
+         <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" data-th="เคล็ดลับกินเที่ยว" data-en="Tips & Guides">เคล็ดลับกินเที่ยว</span>
+               <h2 class="stitle" data-th="เคล็ดลับกินเที่ยว<span>ใกล้มหาลัย</span>" data-en="Eat & Explore <span>Near Campus</span>">เคล็ดลับกินเที่ยว<span>ใกล้มหาลัย</span></h2>
+               <div class="sline"></div>
+            </div>
+            <div class="row g-4">
+               <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                  <div class="blcard">
+                     <div class="blimg">
+                        <img src="img/gallery-new/thai.jpg" alt=""/>
+                        <div class="bldatebdg"><span class="bd">14</span><span class="bm">ก.ย.</span></div>
+                     </div>
+                     <div class="blbody">
+                        <div class="bltag">พื้นที่มหาลัย</div>
+                        <div class="bltit"><a href="#">5 ร้านลับใกล้ธรรมศาสตร์รังสิตที่คนไม่ค่อยรู้จัก</a></div>
+                        <div class="blmeta"><span><i class="fas fa-user"></i>ทีมชิมชิม</span><span><i class="fas fa-comment"></i>24 คอมเมนต์</span></div>
+                        <a href="#" class="blmore">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="80">
+                  <div class="blcard">
+                     <div class="blimg">
+                        <img src="img/menu-new/kraprao.jpg" alt=""/>
+                        <div class="bldatebdg"><span class="bd">28</span><span class="bm">ส.ค.</span></div>
+                     </div>
+                     <div class="blbody">
+                        <div class="bltag">งบนักศึกษา</div>
+                        <div class="bltit"><a href="#">งบ 100 บาทกินอะไรดีให้อิ่มและอร่อย</a></div>
+                        <div class="blmeta"><span><i class="fas fa-user"></i>ทีมชิมชิม</span><span><i class="fas fa-comment"></i>18 คอมเมนต์</span></div>
+                        <a href="#" class="blmore">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="160">
+                  <div class="blcard">
+                     <div class="blimg">
+                        <img src="img/menu-new/khaomangai.jpg" alt=""/>
+                        <div class="bldatebdg"><span class="bd">05</span><span class="bm">ส.ค.</span></div>
+                     </div>
+                     <div class="blbody">
+                        <div class="bltag">รู้จักชิมชิม</div>
+                        <div class="bltit"><a href="#">Food DNA คืออะไร ทำไมชิมชิมถึงรู้ใจเรา</a></div>
+                        <div class="blmeta"><span><i class="fas fa-user"></i>ทีมชิมชิม</span><span><i class="fas fa-comment"></i>32 คอมเมนต์</span></div>
+                        <a href="#" class="blmore">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- NEWSLETTER -->
+      <section id="newsletter">
+         <div class="nlbg"></div>
+         <div class="container">
+            <div class="nlw text-center" data-aos="zoom-in">
+               <span class="slbl" style="color:rgba(255,255,255,.7);" data-th="เร็ว ๆ นี้" data-en="Coming Soon">เร็ว ๆ นี้</span>
+               <h2 class="mb-3" style="color:#fff;" data-th="รอเปิดตัว<span style='color:var(--secondary);'>เต็มรูปแบบ</span>" data-en="Waiting for the <span style='color:var(--secondary);'>Full Launch</span>">รอเปิดตัว<span style="color:var(--secondary);">เต็มรูปแบบ</span></h2>
+               <p class="mb-4" style="color:rgba(255,255,255,.78);" data-th="ฝากอีเมลไว้ก่อน พอเปิดตัวเต็มรูปแบบจะแจ้งให้รู้เป็นคนแรก" data-en="Leave your email - we'll let you know first when we fully launch">ฝากอีเมลไว้ก่อน พอเปิดตัวเต็มรูปแบบจะแจ้งให้รู้เป็นคนแรก</p>
+               <div class="nl-form-wrap">
+                  <input class="nlinput" type="email" id="nlEmail" placeholder="กรอกอีเมลของคุณ..."/>
+                  <button class="nlbtn" id="nlBtn"><i class="fas fa-paper-plane me-1"></i><span data-th="แจ้งเตือนฉัน" data-en="Notify Me">แจ้งเตือนฉัน</span></button>
+               </div>
+               <p style="color:rgba(255,255,255,.45);font-size:.76rem;margin-top:11px;"><i class="fas fa-lock me-1"></i><span data-th="ไม่มีสแปม ยกเลิกได้ตลอดเวลา" data-en="No spam, unsubscribe anytime.">ไม่มีสแปม ยกเลิกได้ตลอดเวลา</span></p>
+            </div>
+         </div>
+      </section>
+      <!-- ============================================================
+         CONTACT — ติดต่อทีมชิมชิม
+         ============================================================ -->
+      <section id="contact-section">
+         <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+               <span class="slbl" data-th="ติดต่อเรา" data-en="Get In Touch">ติดต่อเรา</span>
+               <h2 class="stitle" data-th="ติดต่อทีม<span>ชิมชิม</span>" data-en="Contact the <span>Chimchim</span> Team">ติดต่อทีม<span>ชิมชิม</span></h2>
+               <div class="sline"></div>
+               <p class="sdesc mx-auto" style="max-width:480px;" data-th="มีคำถาม ข้อเสนอแนะ หรืออยากร่วมงานกับเรา ทักมาได้เลย" data-en="Questions, feedback, or want to work with us - reach out anytime">มีคำถาม ข้อเสนอแนะ หรืออยากร่วมงานกับเรา ทักมาได้เลย</p>
+            </div>
+            <div class="row g-4">
+               <div class="col-lg-4" data-aos="fade-right">
+                  <div class="ctdark">
+                     <h4 data-th="คุยกับเรา" data-en="Let's Talk">คุยกับเรา</h4>
+                     <p class="ctsub" data-th="เรามักจะตอบกลับภายใน 2 ชั่วโมงในเวลาทำการ" data-en="We typically respond within 2 hours during business hours.">เรามักจะตอบกลับภายใน 2 ชั่วโมงในเวลาทำการ</p>
+                     <div class="ctitem">
+                        <div class="cticon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="ctinfo"><strong>ที่อยู่</strong><span>Co-working Space<br/>พื้นที่นำร่องแถวมหาวิทยาลัย กรุงเทพฯ</span></div>
+                     </div>
+                     <div class="ctitem">
+                        <div class="cticon"><i class="fas fa-phone-alt"></i></div>
+                        <div class="ctinfo"><strong>โทร</strong><span>02-123-4567</span></div>
+                     </div>
+                     <div class="ctitem">
+                        <div class="cticon"><i class="fas fa-envelope"></i></div>
+                        <div class="ctinfo"><strong>อีเมล</strong><span>hello@chimchim.app</span></div>
+                     </div>
+                     <div class="ctitem">
+                        <div class="cticon"><i class="fas fa-clock"></i></div>
+                        <div class="ctinfo"><strong>เวลาตอบกลับ</strong><span>จันทร์ - ศุกร์ 9:00 - 20:00</span></div>
+                     </div>
+                     <div class="ctsocrow">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-8" data-aos="fade-left">
+                  <div class="fcard">
+                     <div class="row g-3">
+                        <div class="col-sm-6"><label class="flbl">ชื่อของคุณ *</label><input type="text" class="fctrl" placeholder="ชื่อ นามสกุล"/></div>
+                        <div class="col-sm-6"><label class="flbl">อีเมล *</label><input type="email" class="fctrl" placeholder="you@email.com"/></div>
+                        <div class="col-sm-6"><label class="flbl">เบอร์โทร</label><input type="tel" class="fctrl" placeholder="08X-XXX-XXXX"/></div>
+                        <div class="col-sm-6">
+                           <label class="flbl">หัวข้อ *</label>
+                           <select class="fctrl">
+                              <option>สอบถามทั่วไป</option>
+                              <option>สนใจเป็นร้านพันธมิตร</option>
+                              <option>ข้อเสนอแนะฟีเจอร์</option>
+                              <option>ร่วมงานกับทีม</option>
+                              <option>สื่อ-นักข่าว</option>
+                           </select>
+                        </div>
+                        <div class="col-12"><label class="flbl">ข้อความ *</label><textarea class="fctrl" rows="5" placeholder="เขียนข้อความของคุณที่นี่..."></textarea></div>
+                        <div class="col-12"><button class="btn-red" id="ctcBtn"><i class="fas fa-paper-plane"></i><span data-th="ส่งข้อความ" data-en="Send Message">ส่งข้อความ</span></button></div>
+                     </div>
+                     <div class="sucmsg" id="ctcOk">
+                        <i class="fas fa-check-circle"></i>
+                        <p data-th="ส่งข้อความแล้ว! เราจะตอบกลับภายใน 2 ชั่วโมง" data-en="Message sent! We'll reply within 2 hours.">ส่งข้อความแล้ว! เราจะตอบกลับภายใน 2 ชั่วโมง</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- FOOTER -->
+      <footer>
+         <div class="container">
+            <div class="row g-5">
+               <div class="col-lg-4">
+                  <div class="fnm">ชิม<span>ชิม</span></div>
+                  <p class="fdesc" data-th="Find Food. Find Your People. แอปที่รู้ใจคุณกว่าใคร ใช้ AI + Food DNA จับคู่ร้านอาหารให้ตรงรสนิยม" data-en="Find Food. Find Your People. The app that gets you - using AI + Food DNA to match restaurants to your real taste">Find Food. Find Your People. แอปที่รู้ใจคุณกว่าใคร ใช้ AI + Food DNA จับคู่ร้านอาหารให้ตรงรสนิยม</p>
+                  <div class="fsoc">
+                     <a href="#"><i class="fab fa-facebook-f"></i></a>
+                     <a href="#"><i class="fab fa-instagram"></i></a>
+                     <a href="#"><i class="fab fa-twitter"></i></a>
+                     <a href="#"><i class="fab fa-youtube"></i></a>
+                     <a href="#"><i class="fab fa-tiktok"></i></a>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-lg-2">
+                  <div class="ftit" data-th="ลิงก์ด่วน" data-en="Quick Links">ลิงก์ด่วน</div>
+                  <ul class="flinks ps-0">
+                     <li><a href="#hero"><i class="fas fa-chevron-right"></i><span data-th="หน้าแรก" data-en="Home">หน้าแรก</span></a></li>
+                     <li><a href="#ai-finder"><i class="fas fa-chevron-right"></i><span data-th="AI Food Finder" data-en="AI Food Finder">AI Food Finder</span></a></li>
+                     <li><a href="#special"><i class="fas fa-chevron-right"></i><span data-th="Food Roulette" data-en="Food Roulette">Food Roulette</span></a></li>
+                     <li><a href="#following"><i class="fas fa-chevron-right"></i><span data-th="Following" data-en="Following">Following</span></a></li>
+                     <li><a href="#testimonials"><i class="fas fa-chevron-right"></i><span data-th="Profile" data-en="Profile">Profile</span></a></li>
+                     <li><a href="#contact-section"><i class="fas fa-chevron-right"></i><span data-th="ติดต่อเรา" data-en="Contact">ติดต่อเรา</span></a></li>
+                  </ul>
+               </div>
+               <div class="col-sm-6 col-lg-2">
+                  <div class="ftit" data-th="หมวดหมู่" data-en="Categories">หมวดหมู่</div>
+                  <ul class="flinks ps-0">
+                     <li><a href="#feed"><i class="fas fa-chevron-right"></i>🍚 ข้าว</a></li>
+                     <li><a href="#feed"><i class="fas fa-chevron-right"></i>🍜 เส้น</a></li>
+                     <li><a href="#feed"><i class="fas fa-chevron-right"></i>🥣 ซุป</a></li>
+                     <li><a href="#feed"><i class="fas fa-chevron-right"></i>🍔 Fast Food</a></li>
+                     <li><a href="#feed"><i class="fas fa-chevron-right"></i>🍣 ญี่ปุ่น</a></li>
+                     <li><a href="#feed"><i class="fas fa-chevron-right"></i>🍰 ของหวาน</a></li>
+                  </ul>
+               </div>
+               <div class="col-lg-4">
+                  <div class="ftit" data-th="ติดต่อเรา" data-en="Get In Touch">ติดต่อเรา</div>
+                  <div class="fci">
+                     <div class="fciico"><i class="fas fa-map-marker-alt"></i></div>
+                     <div class="fciinfo"><strong data-th="พื้นที่ให้บริการ" data-en="Service area">พื้นที่ให้บริการ</strong>ธรรมศาสตร์รังสิต, BU, เกษตรศาสตร์</div>
+                  </div>
+                  <div class="fci">
+                     <div class="fciico"><i class="fas fa-phone-alt"></i></div>
+                     <div class="fciinfo"><strong data-th="โทร" data-en="Phone">โทร</strong>02-123-4567</div>
+                  </div>
+                  <div class="fci">
+                     <div class="fciico"><i class="fas fa-envelope"></i></div>
+                     <div class="fciinfo"><strong data-th="อีเมล" data-en="Email">อีเมล</strong>hello@chimchim.app</div>
+                  </div>
+                  <div class="fci">
+                     <div class="fciico"><i class="fas fa-clock"></i></div>
+                     <div class="fciinfo"><strong data-th="เวลาตอบกลับ" data-en="Response time">เวลาตอบกลับ</strong><span data-th="ภายใน 2 ชั่วโมง (จ-ศ)" data-en="Within 2 hours (Mon-Fri)">ภายใน 2 ชั่วโมง (จ-ศ)</span></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="fbot">
+            <div class="container">
+               <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <p data-th="&copy; 2026 ชิมชิม (CHIMCHIM) — โปรเจกต์ต้นแบบ Prototype ยังไม่ใช่แอปจริง 🦖" data-en="&copy; 2026 CHIMCHIM — This is a Prototype project, not a real app yet 🦖">&copy; 2026 ชิมชิม (CHIMCHIM) — โปรเจกต์ต้นแบบ Prototype ยังไม่ใช่แอปจริง 🦖</p>
+                  <div><a href="#" data-th="นโยบายความเป็นส่วนตัว" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</a><a href="#" data-th="เงื่อนไขการใช้งาน" data-en="Terms">เงื่อนไขการใช้งาน</a></div>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!-- Back to top -->
+      <button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
+
+	<!-- jQuery -->
+      <script src="js/jquery-3.7.1.min.js"></script>
+      <!-- Bootstrap 5 -->
+      <script src="js/bootstrap.bundle.min.js"></script>
+      <!-- AOS -->
+      <script src="js/aos.js"></script>
+      <!-- Swiper -->
+      <script src="js/swiper-bundle.min.js"></script>
+      <!-- Magnific Popup -->
+      <script src="js/jquery.magnific-popup.min.js"></script>
+      <!-- ข้อมูล + ฟังก์ชันคำนวณ Match % ของชิมชิม -->
+      <script src="js/chimchim-data.js"></script>
+      <!-- Main js -->
+      <script src="js/main.js"></script>
+   </body>
+</html>
