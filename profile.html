@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="th">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="CHIMCHIM">
+      <meta name="description" content="ชิมชิม (CHIMCHIM) - โปรไฟล์ของฉัน">
+      <title>โปรไฟล์ - ชิมชิม (CHIMCHIM)</title>
+      <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+      <link rel="stylesheet" href="css/all.min.css"/>
+      <link rel="stylesheet" href="css/style.css" />
+   </head>
+   <body class="appshell">
+      <header class="apptop">
+         <a href="home.html" class="apptop-logo">
+            <div class="aico"><img src="img/Dino/8.png" alt="CHIMCHIM"/></div>
+            <div class="anm">CHIM<span>CHIM</span></div>
+         </a>
+         <div class="apptop-actions">
+            <div class="qsettingswrap">
+               <button type="button" id="quickSettingsBtn" class="apptop-btn" title="Settings"><i class="fas fa-gear"></i></button>
+               <div class="qspanel" id="quickSettingsPanel" hidden>
+                  <div class="qsrow">
+                     <span class="qslbl" data-i18n="settings.appearance">Appearance</span>
+                     <div class="qstoggle">
+                        <button type="button" data-theme-choice="light" title="Light"><i class="fas fa-sun"></i></button>
+                        <button type="button" data-theme-choice="dark" title="Dark"><i class="fas fa-moon"></i></button>
+                     </div>
+                  </div>
+                  <div class="qsrow">
+                     <span class="qslbl" data-i18n="settings.language">Language</span>
+                     <div class="qstoggle">
+                        <button type="button" data-lang-choice="en" title="English">🇬🇧</button>
+                        <button type="button" data-lang-choice="th" title="ไทย">🇹🇭</button>
+                     </div>
+                  </div>
+                  <a href="settings.html" class="qsmore" data-i18n="profile.settings">Settings</a>
+               </div>
+            </div>
+            <button id="loginBtn" class="apptop-loginbtn" data-i18n="auth.login">เข้าสู่ระบบ</button>
+            <a href="profile.html" id="userAvatarLink" class="apptop-avatar" hidden><span id="userAvatarIco">🦖</span></a>
+         </div>
+      </header>
+
+      <!-- โชว์เมื่อยังไม่ได้เข้าสู่ระบบ -->
+      <div class="profguestbox" id="profGuestBox" hidden>
+         <img src="img/Dino/12.png" alt="Dino เขิน"/>
+         <h3 data-i18n="profile.notLoggedIn">ยังไม่ได้เข้าสู่ระบบ</h3>
+         <p data-i18n="profile.notLoggedInDesc">สมัครสมาชิกหรือเข้าสู่ระบบ เพื่อดูโปรไฟล์ Food DNA ร้านที่ Follow ไว้ หรือจัดการร้านของคุณ</p>
+         <button class="btn-red" id="profSignupBtn"><i class="fas fa-user-plus"></i><span data-i18n="profile.signup">สมัครสมาชิก</span></button>
+      </div>
+
+      <!-- โชว์เมื่อเข้าสู่ระบบแล้ว -->
+      <div class="profwrap" id="profContent" hidden>
+         <div class="profhead">
+            <div class="profavatar" id="profAvatar"></div>
+            <div>
+               <div class="profname" id="profName"></div>
+               <div class="profemail" id="profEmail"></div>
+               <span class="profrole" id="profRole"></span>
+            </div>
+         </div>
+
+         <!-- Food DNA (บัญชีผู้ใช้ทั่วไป) -->
+         <div class="profcard" id="profDnaCard" hidden>
+            <div class="profcardtit"><i class="fas fa-dna me-1"></i><span data-i18n="profile.foodDna">Food DNA ของคุณ</span></div>
+            <div id="profDnaBody"></div>
+            <a href="profile-setup.html" class="rdghost" style="width:100%;margin-top:12px;"><i class="fas fa-rotate me-1"></i><span data-i18n="profile.retakeTest">ทำแบบทดสอบใหม่อีกครั้ง</span></a>
+         </div>
+         <div class="profcard" id="profNoDnaCard" hidden>
+            <div class="profcardtit"><i class="fas fa-dna me-1"></i><span data-i18n="profile.foodDna">Food DNA ของคุณ</span></div>
+            <p style="font-size:.82rem;color:#999;margin-bottom:14px;" data-i18n="profile.noDnaDesc">ยังไม่ได้ทำแบบทดสอบ Food DNA ทำแบบทดสอบสั้น ๆ เพื่อให้ชิมชิมแนะนำร้านได้ตรงใจคุณมากขึ้น</p>
+            <a href="profile-setup.html" class="btn-red profbtn"><i class="fas fa-flask"></i><span data-i18n="profile.takeTest">ทำแบบทดสอบ Food DNA</span></a>
+         </div>
+
+         <!-- ร้านที่ Follow -->
+         <div class="profcard">
+            <div class="profcardtit"><i class="fas fa-heart me-1"></i><span data-i18n="profile.followedShops">ร้านที่ Follow ไว้</span></div>
+            <p style="font-size:.82rem;color:#999;" id="profFollowCount"></p>
+            <a href="following.html" class="rdghost" style="width:100%;" data-i18n="profile.viewAll">ดูร้านที่ Follow ทั้งหมด</a>
+         </div>
+
+         <!-- ร้านของฉัน (บัญชีร้านค้า) -->
+         <div class="profcard" id="profShopsCard" hidden>
+            <div class="profcardtit"><i class="fas fa-store me-1"></i><span data-i18n="profile.myShops">ร้านของฉัน</span></div>
+            <div id="profShopsList"></div>
+            <button class="btn-red profbtn mt-3" id="postShopBtn"><i class="fas fa-plus"></i><span data-i18n="profile.postNewShop">โพสต์ร้านใหม่</span></button>
+         </div>
+
+         <!-- โพสต์ของฉัน (เหมือนฟีดคอมมูนิตี้ย่อ ๆ) -->
+         <div class="profcard" id="profPostsCard" hidden>
+            <div class="profcardtit"><i class="fas fa-image me-1"></i><span data-i18n="profile.myPosts">โพสต์ของฉัน</span></div>
+            <div class="addpostbox" id="addPostToggle"><i class="fas fa-plus fa-lg"></i><span data-i18n="profile.addPost">เพิ่มโพสต์ใหม่</span></div>
+            <form id="postForm" class="apform" style="display:none;margin-bottom:14px;">
+               <div class="aperr" id="postErr"></div>
+               <label class="flbl">เลือกรูปเมนู</label>
+               <select class="fctrl" id="postImg" required></select>
+               <label class="flbl">แคปชั่น</label>
+               <input class="fctrl" type="text" id="postCaption" placeholder="เล่าอะไรสั้น ๆ เกี่ยวกับมื้อนี้..." required/>
+               <button type="submit" class="btn-red w-100 justify-content-center mt-2"><i class="fas fa-paper-plane"></i><span>โพสต์</span></button>
+            </form>
+            <div class="ppgrid" id="myPostGrid"></div>
+            <p id="myPostEmpty" class="text-center" style="color:#bbb;font-size:.82rem;padding:10px 0;" hidden>ยังไม่มีโพสต์ ลองเพิ่มโพสต์แรกของคุณดูสิ!</p>
+         </div>
+
+         <a href="settings.html" class="rdghost" style="width:100%;margin-bottom:10px;"><i class="fas fa-gear me-1"></i><span data-i18n="profile.settings">ตั้งค่า</span></a>
+         <button class="proflogoutbtn" id="logoutBtn"><i class="fas fa-arrow-right-from-bracket me-2"></i><span data-i18n="profile.logout">ออกจากระบบ</span></button>
+      </div>
+
+      <nav class="appnav">
+         <a href="home.html" class="anitem"><i class="fas fa-fire"></i><span data-i18n="nav.trending">เทรนด์</span></a>
+         <a href="ai-finder.html" class="anitem"><i class="fas fa-brain"></i><span>AI</span></a>
+         <a href="roulette.html" class="ancenter"><img src="img/Dino/1.png" alt="สุ่มเมนู"/></a>
+         <a href="following.html" class="anitem"><i class="fas fa-users"></i><span data-i18n="nav.following">ติดตาม</span></a>
+         <a href="profile.html" class="anitem active"><i class="fas fa-user"></i><span data-i18n="nav.profile">โปรไฟล์</span></a>
+      </nav>
+
+      <!-- ============================================================
+         AUTH POPUP
+         ============================================================ -->
+      <div id="authPop">
+         <div class="apbox">
+            <button class="apclose" id="apClose"><i class="fas fa-times"></i></button>
+            <div class="aptabs">
+               <button class="aptab active" id="apTabLogin" data-tab="login" data-i18n="auth.login">เข้าสู่ระบบ</button>
+               <button class="aptab" id="apTabRegister" data-tab="register" data-i18n="auth.register">สมัครสมาชิก</button>
+            </div>
+            <img class="apdino" src="img/Dino/4.png" alt="Dino ต้อนรับสมาชิกใหม่"/>
+            <form id="loginForm" class="apform">
+               <div class="aperr" id="loginErr"></div>
+               <label class="flbl" data-i18n="auth.email">อีเมล</label>
+               <input class="fctrl" type="email" id="loginEmail" placeholder="you@email.com" autocomplete="email" required/>
+               <label class="flbl" data-i18n="auth.password">รหัสผ่าน</label>
+               <input class="fctrl" type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" required/>
+               <button type="submit" class="btn-red w-100 justify-content-center mt-2"><i class="fas fa-right-to-bracket"></i><span data-i18n="auth.login">เข้าสู่ระบบ</span></button>
+               <p class="apnote"><span data-i18n="auth.noAccount">ยังไม่มีบัญชี?</span> <a href="#" data-switch="register" data-i18n="auth.registerLink">สมัครสมาชิกเลย</a></p>
+            </form>
+            <form id="registerForm" class="apform" style="display:none;">
+               <div class="aperr" id="registerErr"></div>
+               <label class="flbl" data-i18n="auth.whoAreYou">คุณเป็นใคร?</label>
+               <div class="aprolewrap">
+                  <div class="aprole active" data-role="user">
+                     <div class="aprico">🧑‍🎓</div>
+                     <strong data-i18n="auth.regularUser">ผู้ใช้ทั่วไป</strong>
+                     <span data-i18n="auth.regularUserDesc">ค้นหาและติดตามร้านอาหาร</span>
+                  </div>
+                  <div class="aprole" data-role="vendor">
+                     <div class="aprico">🍳</div>
+                     <strong data-i18n="auth.vendor">ร้านค้า / พ่อค้าแม่ค้า</strong>
+                     <span data-i18n="auth.vendorDesc">โพสต์ร้านของคุณเข้าชุมชน</span>
+                  </div>
+               </div>
+               <label class="flbl">ชื่อ<span id="registerNameLbl">ของคุณ</span></label>
+               <input class="fctrl" type="text" id="registerName" placeholder="ชื่อ นามสกุล" autocomplete="name" required/>
+               <label class="flbl" data-i18n="auth.email">อีเมล</label>
+               <input class="fctrl" type="email" id="registerEmail" placeholder="you@email.com" autocomplete="email" required/>
+               <label class="flbl" data-i18n="auth.password">รหัสผ่าน</label>
+               <input class="fctrl" type="password" id="registerPassword" placeholder="อย่างน้อย 4 ตัวอักษร" autocomplete="new-password" required/>
+               <button type="submit" class="btn-red w-100 justify-content-center mt-2"><i class="fas fa-egg"></i><span data-i18n="auth.createAccount">สร้างบัญชี</span></button>
+               <p class="apnote"><span data-i18n="auth.haveAccount">มีบัญชีอยู่แล้ว?</span> <a href="#" data-switch="login" data-i18n="auth.loginLink">เข้าสู่ระบบ</a></p>
+               <p class="apdisclaimer"><i class="fas fa-circle-info me-1"></i><span data-i18n="auth.disclaimer">ระบบสมาชิกเวอร์ชันทดลอง ข้อมูลเก็บไว้ในเบราว์เซอร์นี้เท่านั้น</span></p>
+            </form>
+         </div>
+      </div>
+
+      <!-- ============================================================
+         SHOP POPUP — โพสต์ร้านของฉัน (สำหรับบัญชีร้านค้า)
+         ============================================================ -->
+      <div id="shopPop">
+         <div class="apbox spbox2">
+            <button class="apclose" id="spClose"><i class="fas fa-times"></i></button>
+            <h4 class="sptitle2" id="shopPopTitle"><i class="fas fa-store me-2"></i><span data-i18n="shop.postMyShop">โพสต์ร้านของฉัน</span></h4>
+            <p class="apsub" data-i18n="shop.formHint">กรอกรายละเอียดร้าน แล้วร้านของคุณจะไปโผล่ใน Discovery Feed ทันที</p>
+            <form id="shopForm" class="apform">
+               <input type="hidden" id="shopEditId" value=""/>
+               <div class="aperr" id="shopErr"></div>
+               <label class="flbl" data-i18n="shop.shopName">ชื่อร้าน *</label>
+               <input class="fctrl" type="text" id="shopName" placeholder="เช่น ป้าหน่อย ข้าวมันไก่" required/>
+               <div class="row g-2">
+                  <div class="col-6">
+                     <label class="flbl" data-i18n="shop.category">หมวดอาหาร *</label>
+                     <select class="fctrl" id="shopCat" required>
+                        <option value="ข้าว">🍚 ข้าว</option>
+                        <option value="เส้น">🍜 เส้น</option>
+                        <option value="ซุป">🥣 ซุป</option>
+                        <option value="Fast Food">🍔 Fast Food</option>
+                        <option value="ญี่ปุ่น">🍣 ญี่ปุ่น</option>
+                        <option value="ของหวาน">🍰 ของหวาน</option>
+                        <option value="เผ็ด">🌶️ เผ็ด</option>
+                     </select>
+                  </div>
+                  <div class="col-6">
+                     <label class="flbl" data-i18n="shop.featuredImage">รูปเมนูเด่น *</label>
+                     <select class="fctrl" id="shopImg" required></select>
+                  </div>
+               </div>
+               <label class="flbl" data-i18n="shop.featuredDish">เมนูเด่น *</label>
+               <input class="fctrl" type="text" id="shopDish" placeholder="เช่น ข้าวมันไก่ทอด" required/>
+               <div class="row g-2">
+                  <div class="col-4">
+                     <label class="flbl" data-i18n="shop.priceLow">ราคาต่ำ (฿) *</label>
+                     <input class="fctrl" type="number" id="shopPriceLow" min="0" placeholder="40" required/>
+                  </div>
+                  <div class="col-4">
+                     <label class="flbl" data-i18n="shop.priceHigh">ราคาสูง (฿) *</label>
+                     <input class="fctrl" type="number" id="shopPriceHigh" min="0" placeholder="70" required/>
+                  </div>
+                  <div class="col-4">
+                     <label class="flbl" data-i18n="shop.distance">ระยะทาง (ม.) *</label>
+                     <input class="fctrl" type="number" id="shopDistance" min="0" placeholder="300" required/>
+                  </div>
+               </div>
+               <label class="flbl" data-i18n="shop.nearUni">ใกล้มหาวิทยาลัยไหน *</label>
+               <select class="fctrl" id="shopUni" required>
+                  <option value="ธรรมศาสตร์ รังสิต">ธรรมศาสตร์ รังสิต</option>
+                  <option value="มหาวิทยาลัยกรุงเทพ">มหาวิทยาลัยกรุงเทพ</option>
+                  <option value="เกษตรศาสตร์">เกษตรศาสตร์</option>
+               </select>
+               <label class="flbl" data-i18n="shop.shortDesc">คำโปรยสั้น ๆ *</label>
+               <textarea class="fctrl" id="shopDesc" rows="3" placeholder="บอกจุดเด่นร้านคุณสั้น ๆ ให้คนอยากลอง" required></textarea>
+               <div class="row g-2">
+                  <div class="col-6">
+                     <label class="flbl" data-i18n="shop.hours">เวลาเปิด-ปิด</label>
+                     <input class="fctrl" type="text" id="shopHours" placeholder="เช่น 10:00 – 20:00 น."/>
+                  </div>
+                  <div class="col-6">
+                     <label class="flbl" data-i18n="shop.promo">โปรโมชั่นพิเศษ (ถ้ามี)</label>
+                     <input class="fctrl" type="text" id="shopPromo" placeholder="เช่น ลด 10% ทุกวันจันทร์"/>
+                  </div>
+               </div>
+               <button type="submit" class="btn-red w-100 justify-content-center mt-2" id="shopSubmitBtn"><i class="fas fa-paper-plane"></i><span data-i18n="shop.submit">โพสต์ร้านเข้าชุมชน</span></button>
+            </form>
+         </div>
+      </div>
+
+      <div id="appToast"></div>
+
+      <script src="js/chimchim-i18n.js"></script>
+      <script src="js/chimchim-data.js"></script>
+      <script src="js/chimchim-core.js"></script>
+      <script src="js/chimchim-community.js"></script>
+      <script src="js/chimchim-profile.js"></script>
+   </body>
+</html>

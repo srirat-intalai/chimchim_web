@@ -1,0 +1,122 @@
+// chimchim-roulette.js
+// วงล้อสุ่มเมนู (เฉพาะหน้า roulette.html)
+
+var wheelDisc = document.getElementById("wheelDisc");
+var spinBtn = document.getElementById("spinBtn");
+var wheelSpinning = false;
+var wheelRotation = 0;
+
+/* -----------------------------------------------------
+   โหมดการสุ่ม 3 แบบ: กินตามใจชอบ / ลองสิ่งตรงข้าม / Mix It Up
+   แต่ละโหมดถ่วงน้ำหนักโอกาสที่แต่ละช่องของวงล้อจะถูกเลือก
+   ตามคะแนน Match ของหมวดนั้นกับ Food DNA ผู้ใช้
+----------------------------------------------------- */
+var currentRouletteMode = "like";
+var rmodeDescText = {
+	like: "หมุนแล้วมีโอกาสเจอเมนู/ร้านที่ตรงกับ Food DNA ของคุณมากที่สุด 🎯",
+	opposite: "อยากลองอะไรใหม่ไหม? โหมดนี้จะสุ่มเมนูที่ตรงข้ามกับที่คุณชอบเป็นพิเศษ 🙃",
+	mix: "ผสมกันไปทั้งเมนูที่ชอบและไม่ชอบ ได้ผลลัพธ์สนุก ๆ คาดเดาไม่ได้ 🎲"
+};
+function updateRouletteModeDesc() {
+	var el = document.getElementById("rmodeDesc");
+	if (el) el.textContent = rmodeDescText[currentRouletteMode];
+}
+document.querySelectorAll(".rmodebtn").forEach(function(btn) {
+	btn.addEventListener("click", function() {
+		document.querySelectorAll(".rmodebtn").forEach(function(b) { b.classList.remove("active"); });
+		this.classList.add("active");
+		currentRouletteMode = this.getAttribute("data-mode");
+		updateRouletteModeDesc();
+	});
+});
+updateRouletteModeDesc();
+
+// เลือกช่องวงล้อตามโหมดที่ผู้ใช้ตั้งไว้ คืนค่า index ของช่อง + คะแนน match ของหมวดนั้น
+function เลือกช่องตามโหมด(mode) {
+	var คะแนนทั้งหมด = วงล้อหมวดอาหาร.map(function(cat) {
+		return คำนวณคะแนนหมวดวงล้อ(cat, foodDNA);
+	});
+	var weights;
+	if (mode === "opposite") {
+		weights = คะแนนทั้งหมด.map(function(s) { return Math.pow(Math.max(100 - s, 1), 2); });
+	} else if (mode === "mix") {
+		weights = คะแนนทั้งหมด.map(function() { return 1; });
+	} else {
+		weights = คะแนนทั้งหมด.map(function(s) { return Math.pow(Math.max(s, 1), 2); });
+	}
+	var idx = สุ่มถ่วงน้ำหนัก(weights);
+	return { idx: idx, score: คะแนนทั้งหมด[idx] };
+}
+
+// จัดตำแหน่งตัวหนังสือแต่ละช่องให้อยู่ "ข้างใน" วงล้อเสมอ ไม่ว่าวงล้อจะขนาดเท่าไหร่
+// (คำนวณจากขนาดจริงของวงล้อ แทนที่จะ hardcode พิกเซลตายตัว)
+function positionWheelLabels() {
+	var radius = wheelDisc.offsetWidth / 2;
+	var labelRadius = Math.max(radius * 0.6, 40);
+	document.querySelectorAll(".wslice").forEach(function(el) {
+		var angle = parseFloat(el.getAttribute("data-angle"));
+		el.style.transform = "rotate(" + angle + "deg) translate(0,-" + labelRadius + "px) rotate(-" + angle + "deg)";
+	});
+}
+positionWheelLabels();
+window.addEventListener("resize", positionWheelLabels);
+
+function spinWheel() {
+	if (wheelSpinning) return;
+	wheelSpinning = true;
+	spinBtn.disabled = true;
+
+	var sliceCount = วงล้อหมวดอาหาร.length;
+	var sliceAngle = 360 / sliceCount;
+	var เลือก = เลือกช่องตามโหมด(currentRouletteMode);
+	var randomIndex = เลือก.idx;
+	var sliceCenter = randomIndex * sliceAngle + sliceAngle / 2;
+
+	var extraSpins = 5 + Math.floor(Math.random() * 3);
+	var currentMod = wheelRotation % 360;
+	var delta = (360 - sliceCenter) - currentMod;
+	while (delta < 0) {
+		delta += 360;
+	}
+	wheelRotation += extraSpins * 360 + delta;
+	wheelDisc.style.transform = "rotate(" + wheelRotation + "deg)";
+
+	setTimeout(function() {
+		wheelSpinning = false;
+		spinBtn.disabled = false;
+		revealWheelResult(randomIndex, เลือก.score);
+	}, 4300);
+}
+
+var rresultDescByMode = {
+	like: "ชิมชิมเลือกเมนูนี้ให้เพราะตรงกับ Food DNA ของคุณมาก ๆ ลองเลยไม่ผิดหวังแน่ 🦖",
+	opposite: "ลองกินสิ่งที่ปกติคุณอาจไม่เลือกดูสักครั้ง เผื่อจะเจอเมนูโปรดใหม่! 🙃",
+	mix: "สุ่มมาแบบไม่มีสูตรตายตัว ผสมทั้งของที่ชอบและของใหม่ ลุ้นกันไปเลย 🎲"
+};
+function revealWheelResult(idx, baseScore) {
+	var cat = วงล้อหมวดอาหาร[idx];
+	var item = cat.pool[Math.floor(Math.random() * cat.pool.length)];
+
+	var จิตเตอร์ = Math.floor(Math.random() * 11) - 5;
+	var matchScore = baseScore + จิตเตอร์;
+	if (matchScore > 98) matchScore = 98;
+	if (matchScore < 5) matchScore = 5;
+
+	document.getElementById("wresultImg").src = item.img;
+	document.getElementById("wresultImg").alt = item.name;
+	document.getElementById("wresultTag").textContent = cat.emoji + " " + cat.label + " • 🎯 " + matchScore + "% Match";
+	document.getElementById("wresultTitle").textContent = item.name;
+	document.getElementById("wresultDesc").textContent = rresultDescByMode[currentRouletteMode] || rresultDescByMode.mix;
+	document.getElementById("wresultBtns").hidden = false;
+
+	// ปุ่ม "ดูร้านแนะนำ" พาไปหน้าแรก แล้วกรอง Discovery Feed ตามหมวดที่สุ่มได้
+	var feedBtn = document.getElementById("wfeedBtn");
+	if (cat.กรองได้) {
+		feedBtn.href = "home.html?cat=" + encodeURIComponent(cat.กรองได้);
+	} else {
+		feedBtn.href = "home.html";
+	}
+}
+
+spinBtn.addEventListener("click", spinWheel);
+document.getElementById("wagainBtn").addEventListener("click", spinWheel);

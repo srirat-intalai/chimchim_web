@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="th">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="CHIMCHIM">
+      <meta name="description" content="ชิมชิม (CHIMCHIM) - เขียนรีวิวร้าน">
+      <title>เขียนรีวิว - ชิมชิม (CHIMCHIM)</title>
+      <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+      <link rel="stylesheet" href="css/all.min.css"/>
+      <link rel="stylesheet" href="css/style.css" />
+   </head>
+   <body class="appshell">
+      <div class="obtopnav" style="max-width:480px;margin:0 auto;padding:20px 20px 0;">
+         <button class="obback" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
+         <span class="obstepnum">เขียนรีวิว</span>
+         <span style="width:38px;"></span>
+      </div>
+
+      <div class="revwrap">
+         <div class="revshop" id="revShopBox">
+            <img id="revShopImg" src="" alt=""/>
+            <div>
+               <div class="rname" id="revShopName"></div>
+               <div class="rdish" id="revShopDish"></div>
+            </div>
+         </div>
+
+         <form id="reviewForm">
+            <div class="revrow" id="revNameRow" hidden>
+               <label class="revlbl" for="reviewAuthor">ชื่อของคุณ</label>
+               <input class="fctrl" type="text" id="reviewAuthor" placeholder="ชื่อที่จะแสดงในรีวิว"/>
+            </div>
+            <div class="revrow">
+               <div class="revlbl">รสชาติ</div>
+               <div class="revdinos" data-field="taste">
+                  <div class="revdino" data-val="1"><img src="img/Dino/12.png" alt="1"/></div>
+                  <div class="revdino" data-val="2"><img src="img/Dino/12.png" alt="2"/></div>
+                  <div class="revdino" data-val="3"><img src="img/Dino/7.png" alt="3"/></div>
+                  <div class="revdino" data-val="4"><img src="img/Dino/8.png" alt="4"/></div>
+                  <div class="revdino" data-val="5"><img src="img/Dino/5.png" alt="5"/></div>
+               </div>
+            </div>
+            <div class="revrow">
+               <div class="revlbl">บรรยากาศร้าน</div>
+               <div class="revdinos" data-field="atmosphere">
+                  <div class="revdino" data-val="1"><img src="img/Dino/12.png" alt="1"/></div>
+                  <div class="revdino" data-val="2"><img src="img/Dino/12.png" alt="2"/></div>
+                  <div class="revdino" data-val="3"><img src="img/Dino/7.png" alt="3"/></div>
+                  <div class="revdino" data-val="4"><img src="img/Dino/8.png" alt="4"/></div>
+                  <div class="revdino" data-val="5"><img src="img/Dino/5.png" alt="5"/></div>
+               </div>
+            </div>
+            <div class="revrow">
+               <div class="revlbl">การบริการ</div>
+               <div class="revdinos" data-field="service">
+                  <div class="revdino" data-val="1"><img src="img/Dino/12.png" alt="1"/></div>
+                  <div class="revdino" data-val="2"><img src="img/Dino/12.png" alt="2"/></div>
+                  <div class="revdino" data-val="3"><img src="img/Dino/7.png" alt="3"/></div>
+                  <div class="revdino" data-val="4"><img src="img/Dino/8.png" alt="4"/></div>
+                  <div class="revdino" data-val="5"><img src="img/Dino/5.png" alt="5"/></div>
+               </div>
+            </div>
+            <div class="revrow">
+               <label class="revlbl" for="reviewText">เล่าประสบการณ์ของคุณ</label>
+               <textarea class="fctrl" id="reviewText" rows="4" placeholder="อาหารเป็นยังไงบ้าง อยากบอกอะไรคนอื่นไหม..."></textarea>
+            </div>
+            <div class="aperr" id="reviewErr"></div>
+            <button type="submit" class="btn-red revsubmitbtn"><i class="fas fa-paper-plane"></i><span>ส่งรีวิว</span></button>
+         </form>
+      </div>
+
+      <div id="appToast"></div>
+
+      <script src="js/chimchim-i18n.js"></script>
+      <script src="js/chimchim-data.js"></script>
+      <script src="js/chimchim-core.js"></script>
+      <script src="js/chimchim-community.js"></script>
+      <script src="js/chimchim-review.js"></script>
+   </body>
+</html>

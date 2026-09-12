@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="CHIMCHIM">
+      <meta name="description" content="CHIMCHIM - App settings: appearance and language">
+      <title>Settings - CHIMCHIM</title>
+      <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+      <link rel="stylesheet" href="css/all.min.css"/>
+      <link rel="stylesheet" href="css/style.css" />
+   </head>
+   <body class="appshell" style="padding-bottom:30px;">
+      <div class="obtopnav" style="max-width:520px;margin:0 auto;padding:20px 20px 0;">
+         <button class="obback" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
+         <span class="obstepnum" data-i18n="settings.title">Settings</span>
+         <span style="width:38px;"></span>
+      </div>
+
+      <div class="container" style="max-width:520px;margin:0 auto;padding-top:20px;">
+         <div class="profcard">
+            <div class="profcardtit"><i class="fas fa-palette me-1"></i><span data-i18n="settings.appearance">Appearance</span></div>
+            <div class="settoggle" id="themeToggle">
+               <button type="button" class="settopt" data-theme-choice="light"><i class="fas fa-sun"></i><span data-i18n="settings.light">Light</span></button>
+               <button type="button" class="settopt" data-theme-choice="dark"><i class="fas fa-moon"></i><span data-i18n="settings.dark">Dark</span></button>
+            </div>
+         </div>
+
+         <div class="profcard">
+            <div class="profcardtit"><i class="fas fa-globe me-1"></i><span data-i18n="settings.language">Language</span></div>
+            <div class="settoggle" id="langToggle">
+               <button type="button" class="settopt" data-lang-choice="en"><i class="fas fa-flag-usa" style="opacity:0;height:0;margin:0;"></i>🇬🇧 <span data-i18n="settings.english">English</span></button>
+               <button type="button" class="settopt" data-lang-choice="th">🇹🇭 <span data-i18n="settings.thai">ไทย</span></button>
+            </div>
+         </div>
+      </div>
+
+      <div id="appToast"></div>
+
+      <script src="js/chimchim-i18n.js"></script>
+      <script src="js/chimchim-data.js"></script>
+      <script src="js/chimchim-core.js"></script>
+      <script src="js/chimchim-community.js"></script>
+      <script src="js/chimchim-settings.js"></script>
+   </body>
+</html>

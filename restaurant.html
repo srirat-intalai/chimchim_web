@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="CHIMCHIM">
+      <meta name="description" content="ชิมชิม (CHIMCHIM) - รายละเอียดร้าน">
+      <title>รายละเอียดร้าน - ชิมชิม (CHIMCHIM)</title>
+      <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+      <link rel="stylesheet" href="css/all.min.css"/>
+      <link rel="stylesheet" href="css/style.css" />
+   </head>
+   <body class="appshell">
+      <div class="rdhero">
+         <img id="rdImg" src="" alt=""/>
+         <a href="javascript:history.back()" class="rdheroback"><i class="fas fa-arrow-left"></i></a>
+         <button class="rdherosave" id="rdSaveBtn"><i class="far fa-heart"></i><span class="rdlikecount" id="rdLikeCount"></span></button>
+         <button class="rdheroshare" id="rdShareBtn"><i class="fas fa-share-nodes"></i></button>
+      </div>
+
+      <div class="rdbody">
+         <div class="rdcat" id="rdCat"></div>
+         <div class="rdtitle" id="rdTitle"></div>
+         <div class="rdmeta">
+            <span id="rdRestaurant"></span>
+            <span><i class="fas fa-tag"></i><span id="rdPrice"></span></span>
+            <span><i class="fas fa-location-dot"></i><span id="rdDistance"></span></span>
+            <span><i class="fas fa-graduation-cap"></i><span id="rdUni"></span></span>
+         </div>
+         <button class="rdfollowbtn" id="rdFollowBtn"><i class="fas fa-user-plus me-1"></i><span data-i18n="restaurant.follow">Follow ร้าน</span></button>
+
+         <div class="rdmatchbox">
+            <div class="rdmatchpct" id="rdMatchPct"></div>
+            <div class="rdmatchreason" id="rdMatchReason"></div>
+         </div>
+
+         <p class="rddesc" id="rdDesc"></p>
+         <div class="rdtagswrap" id="rdTags"></div>
+
+         <div class="rdinfobox">
+            <div class="rdinforow"><i class="fas fa-clock"></i><span data-i18n="restaurant.hours">เวลาเปิด-ปิด</span><b id="rdHours"></b></div>
+         </div>
+         <div class="rdpromobox" id="rdPromoBox">
+            <div class="rdpromotit"><i class="fas fa-gift me-1"></i><span data-i18n="restaurant.promotions">โปรโมชั่น & ข้อเสนอพิเศษ</span></div>
+            <div class="rdpromoitem" id="rdPromoItem"></div>
+         </div>
+
+         <div class="rdtabs">
+            <button class="rdtab active" data-tab="overview" data-i18n="restaurant.overview">ภาพรวม</button>
+            <button class="rdtab" data-tab="reviews"><span data-i18n="restaurant.reviews">รีวิว</span> (<span id="rdReviewCount">0</span>)</button>
+         </div>
+         <div class="rdpane active" id="rdPaneOverview">
+            <p style="font-size:.85rem;color:#888;line-height:1.8;">ร้านนี้อยู่ในระบบชิมชิม พร้อมให้บริการนักศึกษาในพื้นที่นำร่อง หากไปถึงแล้วจำได้ว่าเจอร้านนี้จากชิมชิม บอกพนักงานได้เลยว่ามาจากแอป 🦖</p>
+         </div>
+         <div class="rdpane" id="rdPaneReviews">
+            <div id="rdReviewList"></div>
+         </div>
+
+         <div class="rdactions">
+            <button class="rdghost" id="rdNavBtn"><i class="fas fa-diamond-turn-right"></i><span data-i18n="restaurant.navigate">นำทาง</span></button>
+            <a href="#" class="btn-red" id="rdReviewBtn"><i class="fas fa-pen"></i><span data-i18n="restaurant.writeReview">เขียนรีวิว</span></a>
+         </div>
+      </div>
+
+      <div id="appToast"></div>
+
+      <script src="js/chimchim-i18n.js"></script>
+      <script src="js/chimchim-data.js"></script>
+      <script src="js/chimchim-core.js"></script>
+      <script src="js/chimchim-community.js"></script>
+      <script src="js/chimchim-restaurant.js"></script>
+   </body>
+</html>

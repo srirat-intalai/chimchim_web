@@ -1,0 +1,199 @@
+// chimchim-aifinder.js
+// หน้า AI Food Finder แบบแชท ให้ความรู้สึกเหมือนคุยกับเพื่อนผ่าน LINE/IG DM
+// ผู้ใช้เลือกได้ 2 ทาง: กดตัวเลือกด่วนที่สุ่มขึ้นมาเรื่อย ๆ หรือพิมพ์เองตามธรรมชาติ
+
+var aiChatBody = document.getElementById("aiChatBody");
+var aiSuggestRow = document.getElementById("aiSuggestRow");
+var aiChatForm = document.getElementById("aiChatForm");
+var aiChatInput = document.getElementById("aiChatInput");
+
+/* -----------------------------------------------------
+   คลังคำแนะนำเริ่มบทสนทนา (Quick Suggestions) — สุ่มใหม่ทุกครั้ง ไม่ตายตัว
+   แบ่งเป็นหมวด: รสชาติ / ราคา / สถานที่-ระยะทาง / ประเภทอาหาร / Random
+----------------------------------------------------- */
+var คลังQuickSuggest = [
+	{ cat: "รสชาติ", text: "เผ็ด ๆ" },
+	{ cat: "รสชาติ", text: "หวาน ๆ" },
+	{ cat: "รสชาติ", text: "เค็ม ๆ" },
+	{ cat: "รสชาติ", text: "เปรี้ยว ๆ" },
+	{ cat: "ราคา", text: "ประหยัด" },
+	{ cat: "ราคา", text: "งบไม่เกิน 100 บาท" },
+	{ cat: "ราคา", text: "จัดเต็มไปเลย" },
+	{ cat: "สถานที่", text: "ใกล้ ๆ" },
+	{ cat: "สถานที่", text: "ไม่ไกลมาก" },
+	{ cat: "สถานที่", text: "ไปไกลก็ได้" },
+	{ cat: "ประเภท", text: "เมนูข้าว" },
+	{ cat: "ประเภท", text: "เมนูเส้น" },
+	{ cat: "ประเภท", text: "ของหวาน" },
+	{ cat: "ประเภท", text: "Fast Food" },
+	{ cat: "ประเภท", text: "อาหารญี่ปุ่น" },
+	{ cat: "Random", text: "สุ่มให้หน่อย" },
+	{ cat: "Random", text: "อยากลองอะไรใหม่" },
+	{ cat: "Random", text: "ไปกินกับเพื่อน" },
+	{ cat: "Random", text: "ไม่รู้จะกินอะไรดี" }
+];
+
+function สุ่มQuickSuggestions(n) {
+	var เลือกได้ = คลังQuickSuggest.slice();
+	var i, j, temp;
+	for (i = เลือกได้.length - 1; i > 0; i--) {
+		j = Math.floor(Math.random() * (i + 1));
+		temp = เลือกได้[i];
+		เลือกได้[i] = เลือกได้[j];
+		เลือกได้[j] = temp;
+	}
+	return เลือกได้.slice(0, n);
+}
+
+function renderQuickSuggestions() {
+	aiSuggestRow.innerHTML = "";
+	สุ่มQuickSuggestions(4).forEach(function(s) {
+		var chip = document.createElement("button");
+		chip.type = "button";
+		chip.className = "chatchip";
+		chip.textContent = s.text;
+		chip.addEventListener("click", function() {
+			ส่งข้อความ(s.text);
+		});
+		aiSuggestRow.appendChild(chip);
+	});
+}
+
+/* -----------------------------------------------------
+   วาดข้อความ/การ์ดผลลัพธ์ในแชท
+----------------------------------------------------- */
+function เลื่อนแชทลงล่าง() {
+	aiChatBody.scrollTop = aiChatBody.scrollHeight;
+}
+function addUserBubble(text) {
+	var el = document.createElement("div");
+	el.className = "chatbubble user";
+	el.textContent = text;
+	aiChatBody.appendChild(el);
+	เลื่อนแชทลงล่าง();
+}
+function addBotBubble(text) {
+	var el = document.createElement("div");
+	el.className = "chatbubble bot";
+	el.textContent = text;
+	aiChatBody.appendChild(el);
+	เลื่อนแชทลงล่าง();
+}
+function addTyping() {
+	var el = document.createElement("div");
+	el.className = "chattyping";
+	el.id = "aiTypingNow";
+	el.innerHTML = "<span></span><span></span><span></span>";
+	aiChatBody.appendChild(el);
+	เลื่อนแชทลงล่าง();
+}
+function removeTyping() {
+	var el = document.getElementById("aiTypingNow");
+	if (el) el.remove();
+}
+function addResultCards(ร้านพร้อมคะแนน) {
+	var row = document.createElement("div");
+	row.className = "chatcardrow";
+	ร้านพร้อมคะแนน.forEach(function(item) {
+		var ร้าน = item.ข้อมูล;
+		var card = document.createElement("div");
+		card.className = "chatcard";
+		card.innerHTML =
+			'<img src="' + ร้าน.รูป + '" alt="' + escapeHtml(ร้าน.เมนู) + '"/>' +
+			'<div class="chatcard-body">' +
+				'<span class="chatcard-match" data-match-score="' + item.คะแนน + '">' + matchBadgeText(item.คะแนน) + '</span>' +
+				'<div class="chatcard-title">' + escapeHtml(ร้าน.เมนู) + '</div>' +
+				'<div class="chatcard-meta">' + escapeHtml(ร้าน.ร้าน) + ' • ฿' + ร้าน.ราคาต่ำ + '–' + ร้าน.ราคาสูง + '</div>' +
+			'</div>';
+		card.addEventListener("click", function() {
+			window.location.href = "restaurant.html?id=" + ร้าน.id;
+		});
+		row.appendChild(card);
+	});
+	aiChatBody.appendChild(row);
+	เลื่อนแชทลงล่าง();
+}
+
+/* -----------------------------------------------------
+   แปลข้อความอิสระที่ผู้ใช้พิมพ์เอง ให้เป็นเงื่อนไขที่ หาร้านให้ฉัน() เข้าใจ
+   (หมวด / งบ / ระยะ / รส) — จับจาก keyword ภาษาไทยที่พบบ่อย
+----------------------------------------------------- */
+function แปลข้อความเป็นเงื่อนไข(text) {
+	var msg = text.toLowerCase();
+
+	var หมวด = "ไม่รู้";
+	if (/ญี่ปุ่น|ซูชิ|ซาชิมิ/.test(msg)) หมวด = "ญี่ปุ่น";
+	else if (/ของหวาน|ขนม|เค้ก|บิงซู/.test(msg)) หมวด = "ของหวาน";
+	else if (/เบอร์เกอร์|ฟาสต์ฟู้ด|fast food|ไก่ทอด/.test(msg)) หมวด = "Fast Food";
+	else if (/ก๋วยเตี๋ยว|บะหมี่|ราเมง|เส้น|ผัดไทย/.test(msg)) หมวด = "เส้น";
+	else if (/ซุป|แกง|ต้มยำ|ต้มข่า/.test(msg)) หมวด = "ซุป";
+	else if (/ข้าว/.test(msg)) หมวด = "ข้าว";
+	else if (/เผ็ด/.test(msg)) หมวด = "เผ็ด";
+
+	var งบ = "";
+	var budgetMatch = msg.match(/(\d+)\s*บาท/);
+	if (budgetMatch) {
+		var num = parseInt(budgetMatch[1], 10);
+		if (num <= 100) งบ = "ประหยัด";
+		else if (num <= 200) งบ = "กำลังดี";
+		else งบ = "จัดเต็ม";
+	} else if (/ประหยัด|ถูก|งบน้อย/.test(msg)) งบ = "ประหยัด";
+	else if (/จัดเต็ม|แพง|หรู/.test(msg)) งบ = "จัดเต็ม";
+	else if (/กำลังดี/.test(msg)) งบ = "กำลังดี";
+
+	var ระยะ = "ทุกระยะ";
+	if (/ไม่ไกลมาก/.test(msg)) ระยะ = "ไม่ไกลมาก";
+	else if (/ใกล้/.test(msg)) ระยะ = "ใกล้ๆ";
+
+	var รส = "ไม่รู้";
+	if (/เผ็ด/.test(msg)) รส = "เผ็ด";
+	else if (/หวาน/.test(msg)) รส = "หวาน";
+	else if (/เค็ม/.test(msg)) รส = "เค็ม";
+	else if (/เปรี้ยว/.test(msg)) รส = "เปรี้ยว";
+
+	return { หมวด: หมวด, งบ: งบ, ระยะ: ระยะ, รส: รส };
+}
+
+function สร้างข้อความตอบกลับ(cond) {
+	var ท่อน = [];
+	if (cond.หมวด !== "ไม่รู้") ท่อน.push(cond.หมวด);
+	if (cond.รส !== "ไม่รู้") ท่อน.push("รส" + cond.รส);
+	if (cond.งบ) ท่อน.push("งบ" + cond.งบ);
+	if (ท่อน.length === 0) {
+		return "โอเค! ให้ชิมชิมช่วยเลือกจาก Food DNA ของคุณเลยนะ รอแป๊บ 🦖";
+	}
+	return "เข้าใจแล้ว! กำลังหาเมนู" + ท่อน.join(" ") + " ให้อยู่นะ รอแป๊บ 🦖";
+}
+
+/* -----------------------------------------------------
+   ส่งข้อความ (ทั้งจากพิมพ์เองและกดปุ่มแนะนำ) แล้วให้ "ชิมชิม" ตอบกลับพร้อมการ์ดร้าน
+----------------------------------------------------- */
+function ส่งข้อความ(text) {
+	text = text.trim();
+	if (!text) return;
+	addUserBubble(text);
+	aiChatInput.value = "";
+	renderQuickSuggestions();
+
+	var cond = แปลข้อความเป็นเงื่อนไข(text);
+	addTyping();
+	setTimeout(function() {
+		removeTyping();
+		addBotBubble(สร้างข้อความตอบกลับ(cond));
+		var ผลลัพธ์ = หาร้านให้ฉัน(cond.หมวด, cond.งบ, cond.ระยะ, cond.รส);
+		setTimeout(function() {
+			addResultCards(ผลลัพธ์);
+		}, 250);
+	}, 700);
+}
+
+aiChatForm.addEventListener("submit", function(e) {
+	e.preventDefault();
+	ส่งข้อความ(aiChatInput.value);
+});
+
+/* -----------------------------------------------------
+   เริ่มบทสนทนา
+----------------------------------------------------- */
+addBotBubble("อยากกินอะไรวันนี้ บอกชิมชิมได้เลย จะพิมพ์เองหรือกดตัวเลือกด้านล่างก็ได้นะ 👇");
+renderQuickSuggestions();

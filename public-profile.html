@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="CHIMCHIM">
+      <meta name="description" content="ชิมชิม (CHIMCHIM) - โปรไฟล์นักชิมในชุมชน">
+      <title>โปรไฟล์ - ชิมชิม (CHIMCHIM)</title>
+      <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+      <link rel="stylesheet" href="css/all.min.css"/>
+      <link rel="stylesheet" href="css/style.css" />
+   </head>
+   <body class="appshell">
+      <div class="obtopnav" style="max-width:520px;margin:0 auto;padding:20px 20px 0;">
+         <button class="obback" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
+         <span class="obstepnum">โปรไฟล์</span>
+         <span style="width:38px;"></span>
+      </div>
+
+      <div class="profwrap" id="ppContent">
+         <div class="profhead">
+            <div class="profavatar" id="ppAvatar"></div>
+            <div>
+               <div class="profname" id="ppName"></div>
+               <div class="profemail" id="ppSub"></div>
+               <span class="profrole" id="ppLevel"></span>
+            </div>
+         </div>
+
+         <p class="sdesc mb-3" id="ppBio" style="font-size:.85rem;"></p>
+
+         <button class="btn-red profbtn" id="ppFollowBtn"><i class="fas fa-user-plus"></i><span>Follow</span></button>
+
+         <div class="profcard">
+            <div class="profcardtit"><i class="fas fa-image me-1"></i>โพสต์ล่าสุด</div>
+            <div class="ppgrid" id="ppPostGrid"></div>
+            <p id="ppEmpty" class="text-center" style="color:#bbb;font-size:.82rem;padding:20px 0;" hidden>ยังไม่มีโพสต์</p>
+         </div>
+      </div>
+
+      <div id="appToast"></div>
+
+      <script src="js/chimchim-i18n.js"></script>
+      <script src="js/chimchim-data.js"></script>
+      <script src="js/chimchim-core.js"></script>
+      <script src="js/chimchim-community.js"></script>
+      <script src="js/chimchim-publicprofile.js"></script>
+   </body>
+</html>
