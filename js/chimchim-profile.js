@@ -164,6 +164,9 @@ function renderMyPosts() {
 			'<img src="' + p.img + '" alt=""/>' +
 			'<div class="ppostcap">' + escapeHtml(p.caption) + '</div>' +
 			'<button class="ppostdel" data-id="' + p.id + '" title="ลบโพสต์"><i class="fas fa-times"></i></button>';
+		el.addEventListener("click", function() {
+			openPostView({ img: p.img, caption: p.caption, posterName: session.name, posterColor: "linear-gradient(135deg, var(--primary), var(--secondary))" });
+		});
 		el.querySelector(".ppostdel").addEventListener("click", function(e) {
 			e.stopPropagation();
 			deletePost(this.getAttribute("data-id"));

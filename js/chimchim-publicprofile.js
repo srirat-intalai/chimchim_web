@@ -7,7 +7,7 @@ var ppUid = ppParams.get("u");
 var ppIsSeed = ppUid && ppUid.indexOf("seed-") === 0;
 var ppSession = getSession();
 
-function ppRenderPosts(posts) {
+function ppRenderPosts(posts, posterName, posterColor) {
 	var grid = document.getElementById("ppPostGrid");
 	var emptyMsg = document.getElementById("ppEmpty");
 	if (posts.length === 0) {
@@ -21,6 +21,9 @@ function ppRenderPosts(posts) {
 		el.innerHTML =
 			'<img src="' + p.img + '" alt=""/>' +
 			'<div class="ppostcap">' + escapeHtml(p.caption || "") + "</div>";
+		el.addEventListener("click", function() {
+			openPostView({ img: p.img, caption: p.caption, posterName: posterName, posterColor: posterColor });
+		});
 		grid.appendChild(el);
 	});
 }
@@ -49,7 +52,7 @@ if (ppIsSeed) {
 			refreshFollow();
 		});
 
-		ppRenderPosts(creator.โพสต์.map(function(p) { return { img: p.รูป, caption: p.แคปชั่น }; }));
+		ppRenderPosts(creator.โพสต์.map(function(p) { return { img: p.รูป, caption: p.แคปชั่น }; }), creator.ชื่อ, creator.สี);
 	}
 } else {
 	var users = getUsers();
@@ -81,6 +84,6 @@ if (ppIsSeed) {
 			})();
 		}
 
-		ppRenderPosts(getPostsByUser(user.id));
+		ppRenderPosts(getPostsByUser(user.id), user.name, "linear-gradient(135deg, var(--dark), #7d6fb0)");
 	}
 }

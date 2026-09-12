@@ -262,6 +262,10 @@ function matchHeadline(score) {
 	return getLang() === "th" ? ("ตรงใจ " + score + "%") : (score + "% Match");
 }
 function distanceText(meters) {
+	if (meters >= 1000) {
+		var km = (meters / 1000).toFixed(1).replace(/\.0$/, "");
+		return getLang() === "th" ? (km + " กม.") : (km + " km");
+	}
 	return getLang() === "th" ? (meters + " ม.") : (meters + " m");
 }
 

@@ -32,31 +32,83 @@ function buildMiniCard(ร้าน) {
 }
 
 /* -----------------------------------------------------
-   Match Hero — โชว์ร้านที่ Match สูงสุดตอนนี้เป็นภาพวงกลมใหญ่ พร้อมป้ายลอย
-   (Match% / ระยะทางจริง / Food DNA Lv. จริงของผู้ใช้) ข้อมูลทั้งหมดคำนวณจากร้านจริง
-   เรียก renderMatchHero() ซ้ำได้ทุกครั้งที่สลับภาษา เพื่อรีเฟรชข้อความให้ตรงโหมด
+   Match Hero — วงกลมเดียว แต่ภาพข้างในเลื่อนซ้ายขวาดูร้าน Match สูงสุดได้ทีละร้าน
+   (Match% / ระยะทางจริง คำนวณจาก Food DNA ปัจจุบัน) ป้ายลอยอัปเดตตามภาพที่เลื่อนมาอยู่ตรงกลาง
+   เรียก renderMatchHero() ซ้ำได้ทุกครั้งที่สลับภาษา เพื่อสร้างภาพชุดใหม่ให้ข้อความตรงโหมด
 ----------------------------------------------------- */
-var matchHeroWired = false;
+var mhState = { ranked: [], currentIndex: 0 };
+function updateHeroBadges() {
+    var item = mhState.ranked[mhState.currentIndex];
+    if (!item) return;
+    document.getElementById('mhMatchVal').textContent = matchHeadline(item.m);
+    document.getElementById('mhDistVal').textContent = distanceText(item.r.ระยะทาง);
+}
 function renderMatchHero() {
     var wrap = document.getElementById('matchHero');
-    if (!wrap) return;
-    var top = รายการร้าน
+    var slidesEl = document.getElementById('mhSlides');
+    if (!wrap || !slidesEl) return;
+
+    mhState.ranked = รายการร้าน
         .map(function(r) { return { r: r, m: คำนวณMatch(r, foodDNA) }; })
-        .sort(function(a, b) { return b.m - a.m; })[0];
-    if (!top) return;
+        .sort(function(a, b) { return b.m - a.m; })
+        .slice(0, 8);
+    if (!mhState.ranked.length) return;
+    mhState.currentIndex = 0;
 
-    var img = document.getElementById('mhImg');
-    img.src = top.r.รูป;
-    img.alt = top.r.เมนู;
+    slidesEl.innerHTML = '';
+    mhState.ranked.forEach(function(item) {
+        var img = document.createElement('img');
+        img.src = item.r.รูป;
+        img.alt = item.r.เมนู;
+        slidesEl.appendChild(img);
+    });
+    slidesEl.scrollLeft = 0;
+    updateHeroBadges();
 
-    document.getElementById('mhMatchVal').textContent = matchHeadline(top.m);
-    document.getElementById('mhDistVal').textContent = distanceText(top.r.ระยะทาง);
-
-    if (!matchHeroWired) {
-        wrap.addEventListener('click', function() {
-            window.location.href = 'restaurant.html?id=' + top.r.id;
+    if (!slidesEl.getAttribute('data-wired')) {
+        slidesEl.setAttribute('data-wired', '1');
+        var scrollTimer;
+        slidesEl.addEventListener('scroll', function() {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(function() {
+                var w = slidesEl.clientWidth || 1;
+                var idx = Math.round(slidesEl.scrollLeft / w);
+                if (idx < 0) idx = 0;
+                if (idx >= mhState.ranked.length) idx = mhState.ranked.length - 1;
+                mhState.currentIndex = idx;
+                updateHeroBadges();
+            }, 80);
         });
-        matchHeroWired = true;
+        document.getElementById('mhCircleWrap').addEventListener('click', function() {
+            var item = mhState.ranked[mhState.currentIndex];
+            if (item) window.location.href = 'restaurant.html?id=' + item.r.id;
+        });
+
+        /* --- เลื่อนอัตโนมัติทีละร้านทุก 5 วิ หยุดเองเมื่อผู้ใช้ปัดดู แล้วกลับมาเลื่อนอัตโนมัติอีกครั้ง --- */
+        var mhAutoTimer = null;
+        var mhAutoPaused = false;
+        var mhResumeTimeout;
+        function mhStepAuto() {
+            if (mhAutoPaused || !mhState.ranked.length) return;
+            var w = slidesEl.clientWidth || 1;
+            var next = (mhState.currentIndex + 1) % mhState.ranked.length;
+            slidesEl.scrollTo({ left: next * w, behavior: 'smooth' });
+        }
+        function mhStartAuto() {
+            clearInterval(mhAutoTimer);
+            mhAutoTimer = setInterval(mhStepAuto, 5000);
+        }
+        function mhPauseThenResume() {
+            mhAutoPaused = true;
+            clearTimeout(mhResumeTimeout);
+            mhResumeTimeout = setTimeout(function() {
+                mhAutoPaused = false;
+            }, 6000);
+        }
+        ['pointerdown', 'touchstart', 'wheel'].forEach(function(evt) {
+            slidesEl.addEventListener(evt, mhPauseThenResume, { passive: true });
+        });
+        mhStartAuto();
     }
     wrap.hidden = false;
 }

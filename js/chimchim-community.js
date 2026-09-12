@@ -338,6 +338,53 @@ if (shopPop) {
 }
 
 /* =====================================================================
+   Post Viewer Modal — กดดูโพสต์แบบเต็มจอเหมือนอินสตาแกรม
+   ใช้ร่วมกันได้ทุกหน้า (โปรไฟล์ตัวเอง + โปรไฟล์คนอื่น) โดยสร้าง DOM ของโมดัลขึ้นเองที่นี่
+   เรียกใช้ผ่าน window.openPostView({ img, caption, posterName, posterColor })
+   ===================================================================== */
+(function setupPostViewerModal() {
+	var modal = document.createElement("div");
+	modal.id = "postViewModal";
+	modal.innerHTML =
+		'<div class="pvbox">' +
+			'<button class="pvclose" id="pvClose"><i class="fas fa-times"></i></button>' +
+			'<img id="pvImg" src="" alt=""/>' +
+			'<div class="pvinfo">' +
+				'<div class="pvhead">' +
+					'<div class="pvavatar" id="pvAvatar"></div>' +
+					'<div class="pvname" id="pvName"></div>' +
+				"</div>" +
+				'<div class="pvcap" id="pvCap"></div>' +
+			"</div>" +
+		"</div>";
+	document.body.appendChild(modal);
+
+	function closePostView() {
+		modal.classList.remove("open");
+		document.body.style.overflow = "";
+	}
+	modal.addEventListener("click", function(e) {
+		if (e.target === modal) closePostView();
+	});
+	document.getElementById("pvClose").addEventListener("click", closePostView);
+	document.addEventListener("keydown", function(e) {
+		if (e.key === "Escape") closePostView();
+	});
+
+	window.openPostView = function(post) {
+		document.getElementById("pvImg").src = post.img;
+		document.getElementById("pvImg").alt = post.caption || "";
+		document.getElementById("pvCap").textContent = post.caption || "";
+		var avatarEl = document.getElementById("pvAvatar");
+		avatarEl.style.background = post.posterColor || "linear-gradient(135deg, var(--dark), #7d6fb0)";
+		avatarEl.textContent = (post.posterName || "?").trim().charAt(0).toUpperCase();
+		document.getElementById("pvName").textContent = post.posterName || "";
+		modal.classList.add("open");
+		document.body.style.overflow = "hidden";
+	};
+})();
+
+/* =====================================================================
    เริ่มต้น UI ตอนโหลดหน้า
    ===================================================================== */
 refreshAuthUI();
